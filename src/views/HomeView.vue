@@ -9,6 +9,7 @@ const emit = defineEmits(['edit'])
 
 const tableData = ref<ListItem[]>([])
 const table = ref()
+const tableHeight = ref(0)
 const loading = ref(false)
 
 onMounted(() => {
@@ -21,6 +22,27 @@ onMounted(() => {
     }
   })
 })
+
+/**
+ * 表格行样式
+ * @param row
+ * @param rowIndex
+ */
+const tableRowClassName = ({ row, rowIndex }: { row: ListItem; rowIndex: number }) => {
+  if (!row.score) {
+    return ''
+  }
+
+  if (row.score >= 90) {
+    return 'success-row'
+  } else if (row.score >= 80) {
+    return 'warning-row'
+  } else if (row.score >= 60) {
+    return 'info-row'
+  } else {
+    return 'danger-row'
+  }
+}
 
 /**
  * 获取未输入分数的列表
@@ -100,13 +122,13 @@ defineExpose({ scroll, setScore })
     :data="tableData"
     stripe
     size="large"
-    height="500"
-    style="width: 100%"
+    height="calc(100vh - 60px)"
+    :row-class-name="tableRowClassName"
   >
-    <el-table-column prop="id" label="序号" width="60" />
+    <el-table-column prop="id" label="序号" width="60" align="center" />
     <el-table-column prop="name" label="姓名" width="300" />
     <el-table-column prop="score" label="分数" />
-    <el-table-column label="操作" width="180">
+    <el-table-column label="操作" width="180" align="center">
       <template #header>
         <el-popover placement="bottom" :width="400" trigger="click">
           <template #reference>
@@ -131,10 +153,31 @@ defineExpose({ scroll, setScore })
         </el-tooltip>
       </template>
       <template #default="scope">
-        <el-button v-if="scope.row.score" type="primary" circle @click="handleEdit(scope.row)">
-          <Edit style="width: 16px; height: 16px" />
+        <el-button
+          v-if="scope.row.score"
+          size="small"
+          type="primary"
+          circle
+          @click="handleEdit(scope.row)"
+        >
+          <Edit style="width: 14px; height: 14px" />
         </el-button>
       </template>
     </el-table-column>
   </el-table>
 </template>
+
+<style scoped>
+.el-table .warning-row {
+  --el-table-tr-bg-color: var(--el-color-warning-light-9);
+}
+.el-table .success-row {
+  --el-table-tr-bg-color: var(--el-color-success-light-9);
+}
+.el-table .info-row {
+  --el-table-tr-bg-color: var(--el-color-info-light-9);
+}
+.el-table .danger-row {
+  --el-table-tr-bg-color: var(--el-color-danger-light-9);
+}
+</style>
