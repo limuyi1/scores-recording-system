@@ -9,7 +9,6 @@ const emit = defineEmits(['scroll', 'submit'])
 
 const originList = ref<ListItem[]>([])
 const options = ref<ListItem[]>([])
-
 const select = ref()
 
 onMounted(() => {
@@ -46,6 +45,10 @@ const remoteMethod = (query: string) => {
   }
 }
 
+/**
+ * 姓名选择方法
+ * @param index
+ */
 const selectChange = (index: number) => {
   if (index) {
     formData.name = originList.value[index - 1].name
@@ -54,6 +57,9 @@ const selectChange = (index: number) => {
   }
 }
 
+/**
+ * 提交方法
+ */
 const onSubmit = () => {
   // 添加分数
   emit('submit', formData)
@@ -72,6 +78,10 @@ const onSubmit = () => {
   }
 }
 
+/**
+ * 编辑分数
+ * @param data
+ */
 const editScore = (data: ListItem) => {
   remoteMethod(data.name)
 

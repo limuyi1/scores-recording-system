@@ -9,6 +9,7 @@ const emit = defineEmits(['edit'])
 
 const tableData = ref<ListItem[]>([])
 const table = ref()
+const loading = ref(false)
 
 onMounted(() => {
   // 初始化表格
@@ -21,27 +22,49 @@ onMounted(() => {
   })
 })
 
+/**
+ * 获取未输入分数的列表
+ */
 const nullScoreTableList = computed(() => {
   return tableData.value.filter((e) => e.score !== null)
 })
 
+/**
+ * 获取已输入分数的列表
+ */
 const hasScoreTableList = computed(() => {
   return tableData.value.filter((e) => e.score === null)
 })
 
+/**
+ * 滚动到指定行
+ * @param index
+ */
 const scroll = (index: number) => {
   table.value.setScrollTop((index - 1) * 49)
 }
 
+/**
+ * 设置分数
+ * @param data
+ */
 const setScore = (data: ListItem) => {
   tableData.value[Number(data.id) - 1].score = data.score
 }
 
+/**
+ * 编辑信息
+ * @param data
+ */
 const handleEdit = (data: ListItem) => {
   emit('edit', data)
 }
 
+/**
+ * 导出 Excel
+ */
 const exportExcel = () => {
+  loading.value = true
   const data = [['序号', '姓名', '分数']]
   tableData.value.forEach((e) => {
     data.push([String(e.id), e.name, String(e.score || '')])
@@ -63,13 +86,23 @@ const exportExcel = () => {
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)
+
+  loading.value = false
 }
 
 defineExpose({ scroll, setScore })
 </script>
 
 <template>
-  <el-table ref="table" :data="tableData" stripe size="large" height="500" style="width: 100%">
+  <el-table
+    ref="table"
+    v-loading="loading"
+    :data="tableData"
+    stripe
+    size="large"
+    height="500"
+    style="width: 100%"
+  >
     <el-table-column prop="id" label="序号" width="60" />
     <el-table-column prop="name" label="姓名" width="300" />
     <el-table-column prop="score" label="分数" />
