@@ -1,15 +1,26 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
 import HomeView from '@/views/HomeView.vue'
 import InputScore from '@/views/InputScore.vue'
+
+const home = ref()
+const inputScore = ref()
 </script>
 
 <template>
   <el-container>
     <el-header class="app--header">成绩录入系统</el-header>
     <el-container class="app-main">
-      <el-aside width="800px"><home-view /></el-aside>
+      <el-aside width="800px">
+        <home-view ref="home" @edit="(data) => inputScore.editScore(data)" />
+      </el-aside>
       <el-main>
-        <input-score />
+        <input-score
+          ref="inputScore"
+          @scroll="(index) => home.scroll(index)"
+          @submit="(data) => home.setScore(data)"
+        />
       </el-main>
     </el-container>
   </el-container>

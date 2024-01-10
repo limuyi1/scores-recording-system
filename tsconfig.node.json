@@ -5,13 +5,18 @@
     "vitest.config.*",
     "cypress.config.*",
     "nightwatch.conf.*",
-    "playwright.config.*"
+    "playwright.config.*",
+    "src/**/*"
   ],
   "compilerOptions": {
     "composite": true,
     "noEmit": true,
+    "lib": ["esnext", "DOM"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "types": ["node"]
+    "types": ["node"],
+    "paths": {
+      "@/*": ["src/*"]
+    }
   }
 }
