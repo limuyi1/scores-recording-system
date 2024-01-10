@@ -2,7 +2,7 @@
 import { match } from 'pinyin-pro'
 import { onMounted, ref, reactive } from 'vue'
 
-import stuData from '@/views/stu'
+import stuData from '@/assets/stuData'
 import { ListItem } from './types'
 
 const emit = defineEmits(['scroll', 'submit'])
