@@ -9,7 +9,6 @@ const emit = defineEmits(['edit'])
 
 const tableData = ref<ListItem[]>([])
 const table = ref()
-const tableHeight = ref(0)
 const loading = ref(false)
 
 onMounted(() => {
