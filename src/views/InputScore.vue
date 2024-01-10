@@ -65,6 +65,7 @@ const onSubmit = () => {
     formData.id = null
     formData.name = ''
     formData.score = null
+    options.value = []
 
     // 重新聚焦到姓名输入框
     select.value.focus()
