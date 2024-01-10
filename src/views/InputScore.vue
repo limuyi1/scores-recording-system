@@ -10,6 +10,7 @@ const emit = defineEmits(['scroll', 'submit'])
 const originList = ref<ListItem[]>([])
 const options = ref<ListItem[]>([])
 const select = ref()
+const input = ref()
 
 onMounted(() => {
   // 姓名获取焦点
@@ -51,9 +52,16 @@ const remoteMethod = (query: string) => {
  */
 const selectChange = (index: number) => {
   if (index) {
-    formData.name = originList.value[index - 1].name
+    const { id, name } = originList.value[index - 1]
+    formData.id = id
+    formData.name = name
+
     // 表格滚动到相应姓名的位置
     emit('scroll', index)
+
+    setTimeout(() => {
+      input.value.focus()
+    }, 100)
   }
 }
 
@@ -118,6 +126,7 @@ defineExpose({ editScore })
     </el-form-item>
     <el-form-item label="分数">
       <el-input-number
+        ref="input"
         style="width: 400px"
         v-model="formData.score"
         size="large"

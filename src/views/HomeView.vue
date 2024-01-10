@@ -35,9 +35,9 @@ const tableRowClassName = ({ row, rowIndex }: { row: ListItem; rowIndex: number 
   if (row.score >= 90) {
     return 'success-row'
   } else if (row.score >= 80) {
-    return 'warning-row'
+    return 'primary-row'
   } else if (row.score >= 60) {
-    return 'info-row'
+    return 'warning-row'
   } else {
     return 'danger-row'
   }
@@ -62,7 +62,7 @@ const hasScoreTableList = computed(() => {
  * @param index
  */
 const scroll = (index: number) => {
-  table.value.setScrollTop((index - 1) * 49)
+  table.value.scrollTo(0, 47.72 * (index - 1))
 }
 
 /**
@@ -119,9 +119,8 @@ defineExpose({ scroll, setScore })
     ref="table"
     v-loading="loading"
     :data="tableData"
-    stripe
     size="large"
-    height="calc(100vh - 60px)"
+    height="calc(100vh - 76px)"
     :row-class-name="tableRowClassName"
   >
     <el-table-column prop="id" label="序号" width="60" align="center" />
@@ -167,16 +166,19 @@ defineExpose({ scroll, setScore })
 </template>
 
 <style scoped>
-.el-table .warning-row {
-  --el-table-tr-bg-color: var(--el-color-warning-light-9);
-}
-.el-table .success-row {
+.el-table :deep(.success-row) {
   --el-table-tr-bg-color: var(--el-color-success-light-9);
 }
-.el-table .info-row {
-  --el-table-tr-bg-color: var(--el-color-info-light-9);
+
+.el-table :deep(.primary-row) {
+  --el-table-tr-bg-color: var(--el-color-primary-light-9);
 }
-.el-table .danger-row {
+
+.el-table :deep(.warning-row) {
+  --el-table-tr-bg-color: var(--el-color-warning-light-9);
+}
+
+.el-table :deep(.danger-row) {
   --el-table-tr-bg-color: var(--el-color-danger-light-9);
 }
 </style>
