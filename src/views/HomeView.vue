@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue'
-import * as XLSX from 'xlsx'
 
 import { exportExcel } from '@/untils/xlsxUntil'
 
 import stuData from '@/assets/stuData'
+
 import { ListItem } from './types'
 import { ElMessage } from 'element-plus'
 
@@ -89,7 +89,7 @@ const handleEdit = (data: ListItem) => {
  */
 const exportExcelAll = () => {
   const headerData = ['序号', '姓名', '分数']
-  const bodyData = []
+  const bodyData: any[] = []
   tableData.value.forEach((e) => {
     bodyData.push([String(e.id), e.name, String(e.score || '')])
   })
@@ -99,7 +99,7 @@ const exportExcelAll = () => {
 
 const exportExcelLe60 = () => {
   const headerData = ['序号', '姓名', '分数']
-  const bodyData = []
+  const bodyData: any[] = []
   tableData.value.forEach((e) => {
     if (e.score && e.score <= 60) {
       bodyData.push([String(e.id), e.name, String(e.score || '')])
@@ -176,12 +176,6 @@ defineExpose({ scroll, setScore })
             </el-dropdown-menu>
           </template>
         </el-dropdown>
-
-        <!--        <el-tooltip effect="dark" content="导出" placement="top">
-          <el-button style="margin-left: 16px" type="primary" circle @click="exportExcelAll">
-            <Download style="width: 16px; height: 16px" />
-          </el-button>
-        </el-tooltip>-->
       </template>
       <template #default="scope">
         <el-button
