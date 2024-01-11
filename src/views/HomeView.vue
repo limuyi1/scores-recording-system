@@ -100,9 +100,11 @@ const exportExcelAll = () => {
 const exportExcelLe60 = () => {
   const headerData = ['序号', '姓名', '分数']
   const bodyData: any[] = []
+  let index = 1
   tableData.value.forEach((e) => {
     if (e.score && e.score <= 60) {
-      bodyData.push([String(e.id), e.name, String(e.score || '')])
+      bodyData.push([String(index), e.name, String(e.score || '')])
+      index++
     }
   })
 
