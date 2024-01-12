@@ -1,6 +1,5 @@
 import * as XLSX from 'xlsx'
 import { WorkBook } from 'xlsx'
-import { Ref } from 'vue'
 
 /**
  * 导出excel
