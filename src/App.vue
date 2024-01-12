@@ -15,7 +15,7 @@ const inputScore = ref()
       <el-aside width="calc(50vw)">
         <home-view ref="home" @edit="(data) => inputScore.editScore(data)" />
       </el-aside>
-      <el-main>
+      <el-main style="padding: 0 16px 16px">
         <input-score
           ref="inputScore"
           @scroll="(index) => home.scroll(index)"

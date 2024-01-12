@@ -207,7 +207,7 @@ defineExpose({ editScore })
         />
       </template>
       <template v-else>
-        <el-text type="primary">/ 人</el-text>
+        <el-text type="primary">/</el-text>
       </template>
     </div>
     <div class="box-item">
@@ -237,7 +237,7 @@ defineExpose({ editScore })
         />
       </template>
       <template v-else>
-        <el-text type="primary">/ 人</el-text>
+        <el-text type="primary">/</el-text>
       </template>
     </div>
     <div class="box-item">
@@ -269,7 +269,7 @@ defineExpose({ editScore })
         />
       </template>
       <template v-else>
-        <el-text type="primary">/ 人</el-text>
+        <el-text type="primary">/</el-text>
       </template>
     </div>
   </el-card>
