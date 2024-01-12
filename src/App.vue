@@ -12,7 +12,7 @@ const inputScore = ref()
   <el-container>
     <el-header class="app--header">成绩录入系统</el-header>
     <el-container class="app-main">
-      <el-aside width="800px">
+      <el-aside width="calc(50vw)">
         <home-view ref="home" @edit="(data) => inputScore.editScore(data)" />
       </el-aside>
       <el-main>

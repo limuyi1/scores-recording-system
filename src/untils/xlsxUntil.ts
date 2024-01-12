@@ -4,20 +4,17 @@ import { Ref } from 'vue'
 
 /**
  * 导出excel
- * @param loading
  * @param headerData
  * @param bodyData
  * @param fileName
  * @param file
  */
 const exportExcel = (
-  loading: Ref,
   headerData: string[],
-  bodyData: [][],
+  bodyData: string[][],
   fileName: string = new Date().toLocaleString() + '.xlsx',
   file?: WorkBook
 ) => {
-  loading.value = true
   const data = [headerData, ...bodyData]
 
   let workbook
@@ -42,8 +39,6 @@ const exportExcel = (
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)
-
-  loading.value = false
 }
 
 export { exportExcel }
