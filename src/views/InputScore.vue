@@ -53,14 +53,16 @@ const hasNullScoreList = computed(() => {
  * 获取对应分数的列表
  */
 const gteScoreList = (score: number) => {
-  return originList.value.filter((e) => e.score && e.score >= score)
+  return originList.value
+    .filter((e) => e.score && e.score >= score)
+    .sort((a, b) => b.score - a.score)
 }
 
 /**
  * 获取小于等于60分数的列表
  */
 const le60ScoreList = () => {
-  return originList.value.filter((e) => e.score && e.score < 60)
+  return originList.value.filter((e) => e.score && e.score < 60).sort((a, b) => b.score - a.score)
 }
 
 /**
@@ -70,9 +72,9 @@ const le60ScoreList = () => {
  */
 const exportExcelFun = (data: ListItem[], fileName: string) => {
   const headerData = ['序号', '姓名', '分数']
-  const bodyData: string[][] = []
+  const bodyData: any[][] = []
   data.forEach((e, i) => {
-    bodyData.push([String(i + 1), e.name, String(e.score || '')])
+    bodyData.push([String(i + 1), e.name, e.score !== null ? Number(e.score) : ''])
   })
 
   exportExcel(headerData, bodyData, `${fileName}-${new Date().toLocaleString()}.xlsx`)

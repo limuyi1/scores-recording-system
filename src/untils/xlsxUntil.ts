@@ -10,7 +10,7 @@ import { WorkBook } from 'xlsx'
  */
 const exportExcel = (
   headerData: string[],
-  bodyData: string[][],
+  bodyData: any[][],
   fileName: string = new Date().toLocaleString() + '.xlsx',
   file?: WorkBook
 ) => {
