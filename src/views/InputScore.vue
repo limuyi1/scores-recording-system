@@ -321,7 +321,7 @@ defineExpose({ editScore })
   </el-card>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .box-container {
   margin-bottom: 16px;
 }
