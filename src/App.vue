@@ -15,13 +15,15 @@ const inputScore = ref()
       <el-aside width="calc(50vw)">
         <home-view ref="home" @edit="(data) => inputScore.editScore(data)" />
       </el-aside>
-      <el-main style="padding: 0 16px 16px">
-        <input-score
-          ref="inputScore"
-          @scroll="(index) => home.scroll(index)"
-          @submit="(data) => home.setScore(data)"
-        />
-      </el-main>
+      <el-scrollbar>
+        <el-main style="padding: 0 16px 16px">
+          <input-score
+            ref="inputScore"
+            @scroll="(index) => home.scroll(index)"
+            @submit="(data) => home.setScore(data)"
+          />
+        </el-main>
+      </el-scrollbar>
     </el-container>
   </el-container>
 </template>
@@ -37,6 +39,6 @@ const inputScore = ref()
 
 .app-main {
   height: calc(100vh - 60px);
-  background-color: #ecf5ff;
+  background-color: #f4f4f5;
 }
 </style>

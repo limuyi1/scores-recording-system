@@ -158,7 +158,7 @@ defineExpose({ editScore })
       <div class="box-item--title">全部</div>
       <el-popover placement="bottom" :width="400" trigger="hover">
         <template #reference>
-          <el-text style="cursor: pointer; width: 50px" tag="ins" type="primary">
+          <el-text style="cursor: pointer; width: 60px" tag="ins" type="primary">
             {{ originList.length }} / {{ nonNullScoreList.length }}
           </el-text>
         </template>
@@ -186,7 +186,7 @@ defineExpose({ editScore })
       <template v-if="gteScoreList(90).length">
         <el-popover placement="bottom" :width="400" trigger="hover">
           <template #reference>
-            <el-text style="cursor: pointer; width: 50px" tag="ins" type="primary"
+            <el-text style="cursor: pointer; width: 60px" tag="ins" type="primary"
               >{{ gteScoreList(90).length }} 人</el-text
             >
           </template>
@@ -217,7 +217,7 @@ defineExpose({ editScore })
       <template v-if="gteScoreList(80).length">
         <el-popover placement="bottom" :width="400" trigger="hover">
           <template #reference>
-            <el-text style="cursor: pointer; width: 50px" tag="ins" type="primary"
+            <el-text style="cursor: pointer; width: 60px" tag="ins" type="primary"
               >{{ gteScoreList(80).length }} 人</el-text
             >
           </template>
@@ -247,7 +247,7 @@ defineExpose({ editScore })
       <template v-if="le60ScoreList().length">
         <el-popover placement="bottom" :width="400" trigger="hover">
           <template #reference>
-            <el-text style="cursor: pointer; width: 50px" tag="ins" type="primary"
+            <el-text style="cursor: pointer; width: 60px" tag="ins" type="primary"
               >{{ le60ScoreList().length }} 人</el-text
             >
             {{ le60ScoreList() + '12121212' }}

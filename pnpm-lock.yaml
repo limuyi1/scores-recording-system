@@ -67,6 +67,9 @@ devDependencies:
   prettier:
     specifier: ^3.0.3
     version: 3.1.1
+  sass:
+    specifier: ^1.72.0
+    version: 1.72.0
   typescript:
     specifier: ~5.3.0
     version: 5.3.3
@@ -78,7 +81,7 @@ devDependencies:
     version: 0.26.0(vue@3.4.7)
   vite:
     specifier: ^5.0.10
-    version: 5.0.11(@types/node@18.19.6)
+    version: 5.0.11(@types/node@18.19.6)(sass@1.72.0)
   vue-tsc:
     specifier: ^1.8.25
     version: 1.8.27(typescript@5.3.3)
@@ -1054,7 +1057,7 @@ packages:
       '@babel/core': 7.23.7
       '@babel/plugin-transform-typescript': 7.23.6(@babel/core@7.23.7)
       '@vue/babel-plugin-jsx': 1.1.5(@babel/core@7.23.7)
-      vite: 5.0.11(@types/node@18.19.6)
+      vite: 5.0.11(@types/node@18.19.6)(sass@1.72.0)
       vue: 3.4.7(typescript@5.3.3)
     transitivePeerDependencies:
       - supports-color
@@ -1067,7 +1070,7 @@ packages:
       vite: ^4.0.0 || ^5.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 5.0.11(@types/node@18.19.6)
+      vite: 5.0.11(@types/node@18.19.6)(sass@1.72.0)
       vue: 3.4.7(typescript@5.3.3)
     dev: true
 
@@ -1988,6 +1991,10 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /immutable@4.3.5:
+    resolution: {integrity: sha512-8eabxkth9gZatlwl5TBuJnCsoTADlL6ftEr7A4qgdaTsPyreilDSnUk57SO+jfKcNtxPa22U5KK6DSeAYhpBJw==}
+    dev: true
+
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -2530,6 +2537,16 @@ packages:
       queue-microtask: 1.2.3
     dev: true
 
+  /sass@1.72.0:
+    resolution: {integrity: sha512-Gpczt3WA56Ly0Mn8Sl21Vj94s1axi9hDIzDFn9Ph9x3C3p4nNyvsqJoQyVXKou6cBlfFWEgRW4rT8Tb4i3XnVA==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    dependencies:
+      chokidar: 3.5.3
+      immutable: 4.3.5
+      source-map-js: 1.0.2
+    dev: true
+
   /scule@1.1.1:
     resolution: {integrity: sha512-sHtm/SsIK9BUBI3EFT/Gnp9VoKfY6QLvlkvAE6YK7454IF8FSgJEAnJpVdSC7K5/pjI5NfxhzBLW2JAfYA/shQ==}
     dev: true
@@ -2824,7 +2841,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite@5.0.11(@types/node@18.19.6):
+  /vite@5.0.11(@types/node@18.19.6)(sass@1.72.0):
     resolution: {integrity: sha512-XBMnDjZcNAw/G1gEiskiM1v6yzM4GE5aMGvhWTlHAYYhxb7S3/V1s3m2LDHa8Vh6yIWYYB0iJwsEaS523c4oYA==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -2856,6 +2873,7 @@ packages:
       esbuild: 0.19.11
       postcss: 8.4.33
       rollup: 4.9.4
+      sass: 1.72.0
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
