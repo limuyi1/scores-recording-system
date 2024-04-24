@@ -55,14 +55,16 @@ const hasNullScoreList = computed(() => {
 const gteScoreList = (score: number) => {
   return originList.value
     .filter((e) => e.score && e.score >= score)
-    .sort((a, b) => b.score - a.score)
+    .sort((a, b) => (b.score || 0) - (a.score || 0))
 }
 
 /**
  * 获取小于等于60分数的列表
  */
 const le60ScoreList = () => {
-  return originList.value.filter((e) => e.score && e.score < 60).sort((a, b) => b.score - a.score)
+  return originList.value
+    .filter((e) => e.score && e.score < 60)
+    .sort((a, b) => (b.score || 0) - (a.score || 0))
 }
 
 /**
