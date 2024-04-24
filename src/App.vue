@@ -11,7 +11,6 @@ const store = useDataSourceStore()
 
 const homeRef = ref()
 const inputScoreRef = ref()
-const emptyTableViewRef = ref()
 </script>
 
 <template>
