@@ -1,21 +1,25 @@
 <script setup lang="ts">
-import { match } from 'pinyin-pro'
 import { onMounted, ref, reactive, computed } from 'vue'
+import { match } from 'pinyin-pro'
+import { storeToRefs } from 'pinia'
 
 import { Download } from '@element-plus/icons-vue'
 
-import stuData from '@/assets/stuData'
-import { ListItem } from './types'
 import { exportExcel } from '@/untils/xlsxUntil'
+import { useDataSourceStore } from '@/stores/data-source'
+
+import type { ListItemType } from './types'
 
 const emit = defineEmits(['scroll', 'submit'])
 
-const originList = ref<ListItem[]>([])
-const options = ref<ListItem[]>([])
+const store = useDataSourceStore()
+
+const { data: originList } = storeToRefs(store)
+const options = ref<ListItemType[]>([])
 const select = ref()
 const input = ref()
 
-const formData: ListItem = reactive({
+const formData: ListItemType = reactive({
   id: null,
   name: '',
   score: null
@@ -24,37 +28,31 @@ const formData: ListItem = reactive({
 onMounted(() => {
   // 姓名获取焦点
   select.value.focus()
-
-  // 初始化数据
-  originList.value = stuData.map((e, i) => {
-    return {
-      id: i + 1,
-      name: e,
-      score: null
-    }
-  })
 })
 
 /**
  * 获取非空输入分数的列表
  */
 const nonNullScoreList = computed(() => {
-  return originList.value.filter((e) => e.score !== null)
+  const data = originList.value as Array<ListItemType>
+  return data.filter((e: ListItemType) => e.score !== null)
 })
 
 /**
  * 获取未输入分数的列表
  */
 const hasNullScoreList = computed(() => {
-  return originList.value.filter((e) => e.score === null)
+  const data = originList.value as Array<ListItemType>
+  return data.filter((e: ListItemType) => e.score === null)
 })
 
 /**
  * 获取对应分数的列表
  */
 const gteScoreList = (score: number) => {
-  return originList.value
-    .filter((e) => e.score && e.score >= score)
+  const data = originList.value as Array<ListItemType>
+  return data
+    .filter((e: ListItemType) => e.score && e.score >= score)
     .sort((a, b) => (b.score || 0) - (a.score || 0))
 }
 
@@ -62,8 +60,9 @@ const gteScoreList = (score: number) => {
  * 获取小于等于60分数的列表
  */
 const le60ScoreList = () => {
-  return originList.value
-    .filter((e) => e.score && e.score < 60)
+  const data = originList.value as Array<ListItemType>
+  return data
+    .filter((e: ListItemType) => e.score && e.score < 60)
     .sort((a, b) => (b.score || 0) - (a.score || 0))
 }
 
@@ -72,7 +71,7 @@ const le60ScoreList = () => {
  * @param data
  * @param fileName
  */
-const exportExcelFun = (data: ListItem[], fileName: string) => {
+const exportExcelFun = (data: ListItemType[], fileName: string) => {
   const headerData = ['序号', '姓名', '分数']
   const bodyData: any[][] = []
   data.forEach((e, i) => {
@@ -143,7 +142,7 @@ const onSubmit = () => {
  * 编辑分数
  * @param data
  */
-const editScore = (data: ListItem) => {
+const editScore = (data: ListItemType) => {
   remoteMethod(data.name)
 
   formData.id = data.id

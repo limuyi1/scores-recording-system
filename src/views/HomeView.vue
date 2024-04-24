@@ -1,33 +1,24 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 
-import stuData from '@/assets/stuData'
-
-import { ListItem } from './types'
+import { ListItemType } from './types'
+import { storeToRefs } from 'pinia'
+import { useDataSourceStore } from '@/stores/data-source'
 
 const emit = defineEmits(['edit'])
 
-const tableData = ref<ListItem[]>([])
+const store = useDataSourceStore()
+
+const { data: tableData } = storeToRefs(store)
 const table = ref()
 const loading = ref(false)
-
-onMounted(() => {
-  // 初始化表格
-  tableData.value = stuData.map((e, i) => {
-    return {
-      id: i + 1,
-      name: e,
-      score: null
-    }
-  })
-})
 
 /**
  * 表格行样式
  * @param row
  * @param rowIndex
  */
-const tableRowClassName = ({ row, rowIndex }: { row: ListItem; rowIndex: number }) => {
+const tableRowClassName = ({ row, rowIndex }: { row: ListItemType; rowIndex: number }) => {
   if (!row.score) {
     return ''
   }
@@ -55,19 +46,26 @@ const scroll = (index: number) => {
  * 设置分数
  * @param data
  */
-const setScore = (data: ListItem) => {
+const setScore = (data: ListItemType) => {
   tableData.value[Number(data.id) - 1].score = data.score
+}
+
+/**
+ * 重置分数
+ */
+const resetScore = () => {
+  tableData.value.forEach((e) => (e.score = null))
 }
 
 /**
  * 编辑信息
  * @param data
  */
-const handleEdit = (data: ListItem) => {
+const handleEdit = (data: ListItemType) => {
   emit('edit', data)
 }
 
-defineExpose({ scroll, setScore })
+defineExpose({ scroll, setScore, resetScore })
 </script>
 
 <template>
