@@ -1,115 +1,71 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
-import { ListItemType } from './types'
-import { storeToRefs } from 'pinia'
+import TableView from '@/views/components/TableView.vue'
+import InputScoreView from '@/views/components/InputScoreView.vue'
+import EmptyTableView from '@/views/components/EmptyTableView.vue'
+
 import { useDataSourceStore } from '@/stores/data-source'
-
-const emit = defineEmits(['edit'])
 
 const store = useDataSourceStore()
 
-const { data: tableData } = storeToRefs(store)
-const table = ref()
-const loading = ref(false)
+const tableRef = ref()
+const inputScoreRef = ref()
 
-/**
- * 表格行样式
- * @param row
- * @param rowIndex
- */
-const tableRowClassName = ({ row, rowIndex }: { row: ListItemType; rowIndex: number }) => {
-  if (!row.score) {
-    return ''
-  }
-
-  if (row.score >= 90) {
-    return 'success-row'
-  } else if (row.score >= 80) {
-    return 'primary-row'
-  } else if (row.score >= 60) {
-    return 'warning-row'
-  } else {
-    return 'danger-row'
-  }
-}
-
-/**
- * 滚动到指定行
- * @param index
- */
-const scroll = (index: number) => {
-  table.value.scrollTo(0, 47.72 * (index - 1))
-}
-
-/**
- * 设置分数
- * @param data
- */
-const setScore = (data: ListItemType) => {
-  tableData.value[Number(data.id) - 1].score = data.score
-}
-
-/**
- * 重置分数
- */
-const resetScore = () => {
-  tableData.value.forEach((e) => (e.score = null))
-}
-
-/**
- * 编辑信息
- * @param data
- */
-const handleEdit = (data: ListItemType) => {
-  emit('edit', data)
-}
-
-defineExpose({ scroll, setScore, resetScore })
+const isNotEmpty = computed(() => store.data?.length)
 </script>
 
 <template>
-  <el-table
-    ref="table"
-    v-loading="loading"
-    :data="tableData"
-    size="large"
-    height="calc(100vh - 60px)"
-    :row-class-name="tableRowClassName"
-  >
-    <el-table-column prop="id" label="序号" width="60" align="center" />
-    <el-table-column prop="name" label="姓名" width="300" />
-    <el-table-column prop="score" label="分数" />
-    <el-table-column label="操作" width="180" align="center">
-      <template #default="scope">
-        <el-button
-          v-if="scope.row.score"
-          size="small"
-          type="primary"
-          circle
-          @click="handleEdit(scope.row)"
+  <el-container>
+    <el-header class="home-view-header__wrapper">
+      <span>成绩录入系统</span>
+      <el-button-group v-if="isNotEmpty">
+        <el-button type="primary" icon="Upload" @click="store.$reset()">重新上传</el-button>
+        <el-button type="primary" icon="Refresh" @click="tableRef?.resetScore()"
+          >重置分数</el-button
         >
-          <Edit style="width: 14px; height: 14px" />
-        </el-button>
+      </el-button-group>
+    </el-header>
+    <el-container class="home-view-main__wrapper">
+      <template v-if="isNotEmpty">
+        <el-aside width="calc(50vw)">
+          <table-view ref="tableRef" @edit="(data) => inputScoreRef?.editScore(data)" />
+        </el-aside>
+        <el-scrollbar>
+          <el-main style="padding: 0 16px 16px">
+            <input-score-view
+              ref="inputScoreRef"
+              @scroll="(index) => tableRef?.scroll(index)"
+              @submit="(data) => tableRef?.setScore(data)"
+            />
+          </el-main>
+        </el-scrollbar>
       </template>
-    </el-table-column>
-  </el-table>
+      <el-main v-else class="home-view-body--empty__wrapper">
+        <empty-table-view />
+      </el-main>
+    </el-container>
+  </el-container>
 </template>
 
-<style scoped>
-.el-table :deep(.success-row) {
-  --el-table-tr-bg-color: var(--el-color-success-light-9);
+<style scoped lang="scss">
+.home-view-header__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 24px;
+  color: #303133;
+  background-color: #d9ecff;
 }
 
-.el-table :deep(.primary-row) {
-  --el-table-tr-bg-color: var(--el-color-primary-light-9);
-}
+.home-view-main__wrapper {
+  height: calc(100vh - 60px);
+  background-color: #f4f4f5;
 
-.el-table :deep(.warning-row) {
-  --el-table-tr-bg-color: var(--el-color-warning-light-9);
-}
-
-.el-table :deep(.danger-row) {
-  --el-table-tr-bg-color: var(--el-color-danger-light-9);
+  .home-view-body--empty__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 </style>

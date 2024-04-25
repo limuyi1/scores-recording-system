@@ -8,7 +8,7 @@ import { Download } from '@element-plus/icons-vue'
 import { exportExcel } from '@/untils/xlsxUntil'
 import { useDataSourceStore } from '@/stores/data-source'
 
-import type { ListItemType } from './types'
+import type { ListItemType } from '../HomeView'
 
 const emit = defineEmits(['scroll', 'submit'])
 
@@ -49,7 +49,7 @@ const hasNullScoreList = computed(() => {
 /**
  * 获取对应分数的列表
  */
-const gteScoreList = (score: number) => {
+const getScoreList = (score: number) => {
   const data = originList.value as Array<ListItemType>
   return data
     .filter((e: ListItemType) => e.score && e.score >= score)
@@ -184,15 +184,15 @@ defineExpose({ editScore })
     </div>
     <div class="box-item">
       <div class="box-item--title">≥90分</div>
-      <template v-if="gteScoreList(90).length">
+      <template v-if="getScoreList(90).length">
         <el-popover placement="bottom" :width="400" trigger="hover">
           <template #reference>
             <el-text style="cursor: pointer; width: 60px" tag="ins" type="primary"
-              >{{ gteScoreList(90).length }} 人</el-text
+              >{{ getScoreList(90).length }} 人</el-text
             >
           </template>
           <el-tag
-            v-for="item in gteScoreList(90)"
+            v-for="item in getScoreList(90)"
             :key="item.id"
             style="margin: 0 3px 3px 0"
             class="ml-2"
@@ -206,7 +206,7 @@ defineExpose({ editScore })
           size="small"
           :icon="Download"
           circle
-          @click="exportExcelFun(gteScoreList(90), '≥90分')"
+          @click="exportExcelFun(getScoreList(90), '≥90分')"
         />
       </template>
       <template v-else>
@@ -215,15 +215,15 @@ defineExpose({ editScore })
     </div>
     <div class="box-item">
       <div class="box-item--title">≥80分</div>
-      <template v-if="gteScoreList(80).length">
+      <template v-if="getScoreList(80).length">
         <el-popover placement="bottom" :width="400" trigger="hover">
           <template #reference>
             <el-text style="cursor: pointer; width: 60px" tag="ins" type="primary"
-              >{{ gteScoreList(80).length }} 人</el-text
+              >{{ getScoreList(80).length }} 人</el-text
             >
           </template>
           <el-tag
-            v-for="item in gteScoreList(80)"
+            v-for="item in getScoreList(80)"
             :key="item.id"
             style="margin: 0 3px 3px 0"
             class="ml-2"
@@ -236,7 +236,7 @@ defineExpose({ editScore })
           size="small"
           :icon="Download"
           circle
-          @click="exportExcelFun(gteScoreList(80), '≥80分')"
+          @click="exportExcelFun(getScoreList(80), '≥80分')"
         />
       </template>
       <template v-else>
@@ -251,7 +251,6 @@ defineExpose({ editScore })
             <el-text style="cursor: pointer; width: 60px" tag="ins" type="primary"
               >{{ le60ScoreList().length }} 人</el-text
             >
-            {{ le60ScoreList() + '12121212' }}
           </template>
           <el-tag
             v-for="item in le60ScoreList()"

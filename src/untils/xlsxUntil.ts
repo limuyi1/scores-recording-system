@@ -48,7 +48,7 @@ const parseExcel = async (file: any) => {
   const dataBinary = await new Promise((resolve) => {
     const reader = new FileReader()
     reader.readAsBinaryString(file.raw)
-    reader.onload = (ev) => {
+    reader.onload = (ev: any) => {
       resolve(ev.target.result)
     }
   })
