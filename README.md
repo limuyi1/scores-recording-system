@@ -16,4 +16,4 @@
 - 美化导出excel
 
 ## 6.体验地址
-https://limuyi1.github.io/scores-recording-system/index
+https://limuyi1.github.io/scores-recording-system/#/index
