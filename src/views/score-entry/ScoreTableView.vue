@@ -4,7 +4,7 @@ import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useDataSourceStore } from '@/stores/data-source'
 
-import type { ListItemType } from '../HomeView'
+import type { ListItemType } from '../HomePage'
 
 const emit = defineEmits(['edit'])
 

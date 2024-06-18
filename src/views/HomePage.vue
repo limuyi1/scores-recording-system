@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 
-import TableView from '@/views/components/TableView.vue'
-import InputScoreView from '@/views/components/InputScoreView.vue'
+import TableView from '@/views/score-entry/ScoreTableView.vue'
+import InputScoreView from '@/views/score-entry/InputScoreView.vue'
 import EmptyTableView from '@/views/components/EmptyTableView.vue'
 
 import { useDataSourceStore } from '@/stores/data-source'
@@ -13,12 +13,14 @@ const tableRef = ref()
 const inputScoreRef = ref()
 
 const isNotEmpty = computed(() => store.data?.length)
+const title = ref(import.meta.env.VITE_GLOB_APP_TITLE)
+const activeName = ref('first')
 </script>
 
 <template>
   <el-container>
     <el-header class="home-view-header__wrapper">
-      <span>成绩录入系统</span>
+      <span>{{ title }}</span>
       <el-button-group v-if="isNotEmpty">
         <el-button type="primary" icon="Upload" @click="store.$reset()">重新上传</el-button>
         <el-button type="primary" icon="Refresh" @click="tableRef?.resetScore()"
@@ -27,7 +29,7 @@ const isNotEmpty = computed(() => store.data?.length)
       </el-button-group>
     </el-header>
     <el-container class="home-view-main__wrapper">
-      <template v-if="isNotEmpty">
+      <!--      <template v-if="isNotEmpty">
         <el-aside width="calc(50vw)">
           <table-view ref="tableRef" @edit="(data) => inputScoreRef?.editScore(data)" />
         </el-aside>
@@ -40,9 +42,15 @@ const isNotEmpty = computed(() => store.data?.length)
             />
           </el-main>
         </el-scrollbar>
-      </template>
-      <el-main v-else class="home-view-body--empty__wrapper">
-        <empty-table-view />
+      </template>-->
+      <el-main class="home-view-body--empty__wrapper">
+        <template v-if="isNotEmpty">
+          <el-tabs v-model="activeName">
+            <el-tab-pane label="User" name="first">User</el-tab-pane>
+            <el-tab-pane label="Config" name="second">Config</el-tab-pane>
+          </el-tabs>
+        </template>
+        <empty-table-view v-else />
       </el-main>
     </el-container>
   </el-container>
