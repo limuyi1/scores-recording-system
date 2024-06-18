@@ -39,8 +39,37 @@ const tableRowClassName = ({ row }: { row: ListItemType }) => {
  * 滚动到指定行
  * @param index
  */
-const scroll = (index: number) => {
+const scroll = async (index: number) => {
   table.value.scrollTo(0, 50 * (index - 1))
+
+  // 行颜色闪烁
+  const elems = document.querySelectorAll('.el-table__row')
+  const ele: any = elems[index - 1]
+  const backupBackgroundColor = window.getComputedStyle(ele).backgroundColor
+
+  ele.style.backgroundColor = '#f5f7fa'
+  await delay(300)
+  ele.style.backgroundColor = backupBackgroundColor
+  await delay(300)
+  ele.style.backgroundColor = '#f5f7fa'
+  await delay(300)
+  ele.style.backgroundColor = backupBackgroundColor
+  await delay(300)
+  ele.style.backgroundColor = '#f5f7fa'
+  await delay(600)
+  ele.style.backgroundColor = backupBackgroundColor
+
+  // setTimeout(() => {
+  //   ele.style.backgroundColor = backupBackgroundColor
+  // }, 600)
+}
+
+/**
+ * 等待函数
+ * @param ms
+ */
+const delay = (ms: number) => {
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 /**
