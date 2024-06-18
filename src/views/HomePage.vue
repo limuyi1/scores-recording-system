@@ -1,58 +1,39 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 
-import TableView from '@/views/score-entry/ScoreTableView.vue'
-import InputScoreView from '@/views/score-entry/InputScoreView.vue'
 import EmptyTableView from '@/views/components/EmptyTableView.vue'
+import ScoreEntryPage from '@/views/score-entry/ScoreEntryPage.vue'
+import FinalEvaluationPage from '@/views/final-evaluation/FinalEvaluationPage.vue'
 
 import { useDataSourceStore } from '@/stores/data-source'
 
 const store = useDataSourceStore()
 
-const tableRef = ref()
-const inputScoreRef = ref()
-
 const isNotEmpty = computed(() => store.data?.length)
 const title = ref(import.meta.env.VITE_GLOB_APP_TITLE)
-const activeName = ref('first')
+const activeName = ref('ScoreEntry')
+const tabData = [
+  { label: '成绩录入', name: 'ScoreEntry', component: ScoreEntryPage },
+  { label: '期末评语', name: 'FinalEvaluation', component: FinalEvaluationPage }
+]
 </script>
 
 <template>
   <el-container>
     <el-header class="home-view-header__wrapper">
       <span>{{ title }}</span>
-      <el-button-group v-if="isNotEmpty">
-        <el-button type="primary" icon="Upload" @click="store.$reset()">重新上传</el-button>
-        <el-button type="primary" icon="Refresh" @click="tableRef?.resetScore()"
-          >重置分数</el-button
-        >
-      </el-button-group>
+      <el-button v-if="isNotEmpty" type="primary" icon="Upload" @click="store.$reset()"
+        >重新上传
+      </el-button>
     </el-header>
-    <el-container class="home-view-main__wrapper">
-      <!--      <template v-if="isNotEmpty">
-        <el-aside width="calc(50vw)">
-          <table-view ref="tableRef" @edit="(data) => inputScoreRef?.editScore(data)" />
-        </el-aside>
-        <el-scrollbar>
-          <el-main style="padding: 0 16px 16px">
-            <input-score-view
-              ref="inputScoreRef"
-              @scroll="(index) => tableRef?.scroll(index)"
-              @submit="(data) => tableRef?.setScore(data)"
-            />
-          </el-main>
-        </el-scrollbar>
-      </template>-->
-      <el-main class="home-view-body--empty__wrapper">
-        <template v-if="isNotEmpty">
-          <el-tabs v-model="activeName">
-            <el-tab-pane label="User" name="first">User</el-tab-pane>
-            <el-tab-pane label="Config" name="second">Config</el-tab-pane>
-          </el-tabs>
-        </template>
-        <empty-table-view v-else />
-      </el-main>
-    </el-container>
+    <el-main class="home-view-main__wrapper">
+      <el-tabs v-if="isNotEmpty" v-model="activeName" class="home-view-tabs">
+        <el-tab-pane v-for="item in tabData" :key="item.name" :label="item.label" :name="item.name">
+          <component :is="item.component" />
+        </el-tab-pane>
+      </el-tabs>
+      <empty-table-view v-else />
+    </el-main>
   </el-container>
 </template>
 
@@ -69,11 +50,12 @@ const activeName = ref('first')
 .home-view-main__wrapper {
   height: calc(100vh - 60px);
   background-color: #f4f4f5;
+  padding: 0 20px 20px;
+  box-sizing: border-box;
 
-  .home-view-body--empty__wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .home-view-tabs {
+    width: 100%;
+    height: 100%;
   }
 }
 </style>

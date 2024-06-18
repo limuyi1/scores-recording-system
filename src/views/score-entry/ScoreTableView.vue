@@ -75,7 +75,7 @@ defineExpose({ scroll, setScore, resetScore })
     v-loading="loading"
     :data="tableData"
     size="large"
-    height="calc(100vh - 60px)"
+    height="calc(100%)"
     :row-class-name="tableRowClassName"
   >
     <el-table-column prop="id" label="序号" width="60" align="center" />
