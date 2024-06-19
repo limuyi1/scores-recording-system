@@ -8,7 +8,7 @@ import { Download } from '@element-plus/icons-vue'
 import { exportExcel } from '@/untils/xlsxUntil'
 import { useDataSourceStore } from '@/stores/data-source'
 
-import type { ListItemType } from '../HomePage'
+import type { ListItemType } from '../../HomePage'
 
 const emit = defineEmits(['scroll', 'submit'])
 
