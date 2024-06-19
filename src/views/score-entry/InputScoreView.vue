@@ -29,8 +29,10 @@ onMounted(() => {
   inputFocus()
 })
 
+/**
+ * 姓名获取焦点
+ */
 const inputFocus = () => {
-  // 姓名获取焦点
   nameInputRef.value.focus()
 }
 
