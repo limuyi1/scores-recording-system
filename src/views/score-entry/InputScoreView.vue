@@ -105,9 +105,10 @@ const remoteMethod = (query: string) => {
  */
 const selectChange = (index: number) => {
   if (index) {
-    const { id, name } = originList.value[index - 1]
+    const { id, name, score } = originList.value[index - 1]
     formData.id = id
     formData.name = name
+    formData.score = score
 
     // 表格滚动到相应姓名的位置
     emit('scroll', index)
