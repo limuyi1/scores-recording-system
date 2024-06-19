@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 
+import { ElMessageBox } from 'element-plus'
+
 import EmptyTableView from '@/views/components/EmptyTableView.vue'
 import ScoreEntryPage from '@/views/score-entry/ScoreEntryPage.vue'
 import FinalEvaluationPage from '@/views/final-evaluation/FinalEvaluationPage.vue'
@@ -17,13 +19,23 @@ const tabData = [
   { label: '成绩录入', name: 'ScoreEntry', component: ScoreEntryPage },
   { label: '期末评语', name: 'FinalEvaluation', component: FinalEvaluationPage }
 ]
+
+const resetStuInfo = () => {
+  ElMessageBox.confirm('确定要重置学生信息吗？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    store.$reset()
+  })
+}
 </script>
 
 <template>
   <el-container>
     <el-header class="home-view-header__wrapper">
       <span>{{ title }}</span>
-      <el-button v-if="isNotEmpty" type="primary" icon="Upload" @click="store.$reset()"
+      <el-button v-if="isNotEmpty" type="primary" icon="Upload" @click="resetStuInfo"
         >重新上传
       </el-button>
     </el-header>

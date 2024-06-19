@@ -16,9 +16,6 @@ const inputScoreRef = ref()
     <el-main class="score-entry-page--main__wrapper">
       <el-scrollbar>
         <div class="score-entry-page--body__wrapper">
-          <!--          <el-button class="tools-btn" type="primary" icon="Refresh" @click="tableRef?.resetScore()"-->
-          <!--            >重置分数-->
-          <!--          </el-button>-->
           <input-score-view
             ref="inputScoreRef"
             @scroll="(index) => tableRef?.scroll(index)"

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+import { ElMessageBox } from 'element-plus'
+
 import { storeToRefs } from 'pinia'
 import { useDataSourceStore } from '@/stores/data-source'
 
@@ -68,12 +70,12 @@ const rowBlink = async (index: number) => {
       await delay(300)
     }
   } else {
-    const backupBackgroundColor = window.getComputedStyle(ele).backgroundColor
-    const bgcMap: any = { 0: '#f5f7fa', 1: backupBackgroundColor }
-    let flag = 0
     for (let i = 0; i < 6; i++) {
-      ele.style.backgroundColor = bgcMap[flag]
-      flag = flag === 0 ? 1 : 0
+      if (i % 2 === 0) {
+        ele.style.backgroundColor = '#f5f7fa'
+      } else {
+        ele.style.backgroundColor = ''
+      }
       await delay(300)
     }
   }
@@ -99,7 +101,13 @@ const setScore = (data: ListItemType) => {
  * 重置分数
  */
 const resetScore = () => {
-  tableData.value.forEach((e) => (e.score = null))
+  ElMessageBox.confirm('确定要重置分数吗？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    tableData.value.forEach((e) => (e.score = null))
+  })
 }
 
 /**
@@ -110,7 +118,7 @@ const handleEdit = (data: ListItemType) => {
   emit('edit', data)
 }
 
-defineExpose({ scroll, setScore, resetScore })
+defineExpose({ scroll, setScore })
 </script>
 
 <template>
