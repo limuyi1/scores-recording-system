@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'FYFont';
+  src: url('../font/字小魂扶摇手书.ttf') format('truetype');
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}

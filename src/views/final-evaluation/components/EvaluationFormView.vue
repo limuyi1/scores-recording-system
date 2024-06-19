@@ -7,7 +7,8 @@ import { Pages, pageSizeInPixels, mmToPixel } from '@/untils/pageSizeInPixelUnti
 
 const store = useDataSourceStore()
 const { data: tableData } = storeToRefs(store)
-const pageWidth = ref('0')
+const pageWidth = ref(0)
+const pagePadding = ref(0)
 const cell = reactive({
   width: 0,
   height: 0
@@ -24,34 +25,50 @@ onMounted(() => {
 
 const init = () => {
   const { width, height } = pageSizeInPixels(Pages.A4)
-  pageWidth.value = width + 'px'
+  pageWidth.value = width
 
   const cellWidth = mmToPixel(cellInfo.width)
   const cellHeight = mmToPixel(cellInfo.height)
   cell.width = cellWidth
   cell.height = cellHeight
+
+  pagePadding.value = (pageWidth.value - cell.width * 2) / 2
 }
 </script>
 
 <template>
   <div class="evaluation-form-view__wrapper">
-    <el-card class="evaluation-form-view--card" :style="{ width: pageWidth }" shadow="always">
+    <el-card
+      class="evaluation-form-view--card"
+      :style="{ width: pageWidth + 'px' }"
+      shadow="always"
+    >
       <el-scrollbar>
-        <div class="evaluation-form-view--table__wrapper">
+        <div
+          class="evaluation-form-view--table__wrapper"
+          :style="{ padding: `${pagePadding}px 0px` }"
+        >
           <table class="evaluation-form-view--table" border="1" cellspacing="1">
             <template v-for="(item, index) in tableData">
               <tr v-if="index % 2 == 0" :key="index">
                 <td
-                  class="evaluation-form-view--table--cell"
                   :style="{ width: cell.width + 'px', height: cell.height + 'px' }"
+                  v-for="e in 2"
+                  :key="e"
                 >
-                  {{ item.name }}{{ item.comment }}
-                </td>
-                <td
-                  class="evaluation-form-view--table--cell"
-                  :style="{ width: cell.width + 'px', height: cell.height + 'px' }"
-                >
-                  {{ tableData[index + 1]?.name }}{{ tableData[index + 1]?.comment }}
+                  <div
+                    v-if="tableData[index + e - 1]?.id"
+                    class="evaluation-form-view--table--cell__wrapper"
+                  >
+                    <div class="table-td">{{ tableData[index + e - 1]?.name }}同学：</div>
+                    <div class="table-td table-body">
+                      {{ tableData[index + e - 1]?.comment }}
+                    </div>
+                    <div class="table-footer">
+                      <span>学校：（章）</span>
+                      <span>班主任：<span class="table-td">陈露</span></span>
+                    </div>
+                  </div>
                 </td>
               </tr>
             </template>
@@ -73,13 +90,40 @@ const init = () => {
       display: flex;
       justify-content: center;
       height: 100%;
-      padding: 16px 0;
       box-sizing: border-box;
     }
   }
 
   .evaluation-form-view--table {
     border-collapse: collapse;
+
+    .evaluation-form-view--table--cell__wrapper {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      padding: 8px;
+      box-sizing: border-box;
+
+      .table-td {
+        font-size: 18px;
+        font-family: 'FYFont', sans-serif;
+      }
+
+      .table-body {
+        flex: 1;
+      }
+
+      .table-footer {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 24px;
+        box-sizing: border-box;
+      }
+    }
   }
 
   table,

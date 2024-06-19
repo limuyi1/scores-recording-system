@@ -17,9 +17,14 @@ import EvaluationFormView from '@/views/final-evaluation/components/EvaluationFo
   width: 100%;
   display: flex;
 
-  .final-evaluation-page--left,
+  .final-evaluation-page--left {
+    min-width: 50%;
+  }
+
   .final-evaluation-page--right {
-    width: 50%;
+    flex: 1;
+    padding: 0 20px 20px;
+    box-sizing: border-box;
   }
 }
 </style>
