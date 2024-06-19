@@ -10,15 +10,15 @@ const inputScoreRef = ref()
 
 <template>
   <el-container class="score-entry-page__wrapper">
-    <el-aside width="calc(50vw)">
+    <el-aside width="calc(50%)">
       <score-table-view ref="tableRef" @edit="(data) => inputScoreRef?.editScore(data)" />
     </el-aside>
     <el-main class="score-entry-page--main__wrapper">
       <el-scrollbar>
         <div class="score-entry-page--body__wrapper">
-          <el-button class="tools-btn" type="primary" icon="Refresh" @click="tableRef?.resetScore()"
-            >重置分数
-          </el-button>
+          <!--          <el-button class="tools-btn" type="primary" icon="Refresh" @click="tableRef?.resetScore()"-->
+          <!--            >重置分数-->
+          <!--          </el-button>-->
           <input-score-view
             ref="inputScoreRef"
             @scroll="(index) => tableRef?.scroll(index)"
@@ -38,7 +38,8 @@ const inputScoreRef = ref()
     padding: 0;
 
     .score-entry-page--body__wrapper {
-      padding: 0 16px;
+      padding: 0 12px 0 16px;
+      box-sizing: border-box;
 
       .tools-btn {
         margin-bottom: 15px;

@@ -12,6 +12,7 @@ const store = useDataSourceStore()
 const isNotEmpty = computed(() => store.data?.length)
 const title = ref(import.meta.env.VITE_GLOB_APP_TITLE)
 const activeName = ref('ScoreEntry')
+
 const tabData = [
   { label: '成绩录入', name: 'ScoreEntry', component: ScoreEntryPage },
   { label: '期末评语', name: 'FinalEvaluation', component: FinalEvaluationPage }

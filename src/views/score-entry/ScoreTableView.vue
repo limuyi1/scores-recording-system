@@ -39,29 +39,44 @@ const tableRowClassName = ({ row }: { row: ListItemType }) => {
  * 滚动到指定行
  * @param index
  */
-const scroll = async (index: number) => {
+const scroll = (index: number) => {
   table.value.scrollTo(0, 50 * (index - 1))
 
-  // 行颜色闪烁
+  rowBlink(index)
+}
+
+/**
+ * 行闪烁
+ * @param index
+ */
+const rowBlink = async (index: number) => {
+  // 滚动到此行上后颜色闪烁
   const elems = document.querySelectorAll('.el-table__row')
   const ele: any = elems[index - 1]
-  const backupBackgroundColor = window.getComputedStyle(ele).backgroundColor
+  const classList = ele.classList
 
-  ele.style.backgroundColor = '#f5f7fa'
-  await delay(300)
-  ele.style.backgroundColor = backupBackgroundColor
-  await delay(300)
-  ele.style.backgroundColor = '#f5f7fa'
-  await delay(300)
-  ele.style.backgroundColor = backupBackgroundColor
-  await delay(300)
-  ele.style.backgroundColor = '#f5f7fa'
-  await delay(600)
-  ele.style.backgroundColor = backupBackgroundColor
+  // 行颜色已存在的闪烁
+  if (classList.length > 1) {
+    const backupClass = classList[1]
 
-  // setTimeout(() => {
-  //   ele.style.backgroundColor = backupBackgroundColor
-  // }, 600)
+    for (let i = 0; i < 6; i++) {
+      if (backupClass === classList[1]) {
+        classList.remove(backupClass)
+      } else {
+        classList.add(backupClass)
+      }
+      await delay(300)
+    }
+  } else {
+    const backupBackgroundColor = window.getComputedStyle(ele).backgroundColor
+    const bgcMap: any = { 0: '#f5f7fa', 1: backupBackgroundColor }
+    let flag = 0
+    for (let i = 0; i < 6; i++) {
+      ele.style.backgroundColor = bgcMap[flag]
+      flag = flag === 0 ? 1 : 0
+      await delay(300)
+    }
+  }
 }
 
 /**
@@ -111,6 +126,16 @@ defineExpose({ scroll, setScore, resetScore })
     <el-table-column prop="name" label="姓名" width="300" />
     <el-table-column prop="score" label="分数" />
     <el-table-column label="操作" width="180" align="center">
+      <template #header>
+        <div class="operate-btn__wrapper">
+          <div class="operate-btn--text">操作</div>
+          <el-tooltip effect="dark" placement="top" append-to="body" content="重置分数">
+            <el-icon :size="18" color="var(--el-color-primary)">
+              <Refresh style="cursor: pointer" @click="resetScore" />
+            </el-icon>
+          </el-tooltip>
+        </div>
+      </template>
       <template #default="scope">
         <el-button
           v-if="scope.row.score"
@@ -127,6 +152,16 @@ defineExpose({ scroll, setScore, resetScore })
 </template>
 
 <style scoped lang="scss">
+.operate-btn__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .operate-btn--text {
+    margin-right: 8px;
+  }
+}
+
 :deep(.el-table__row) {
   height: 50px;
 }
