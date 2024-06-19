@@ -27,28 +27,38 @@ const uploadFile = async (file: any) => {
 </script>
 
 <template>
-  <el-card class="empty-table-view__wrapper">
-    <template #header>还没有学生信息</template>
+  <div class="empty-table-view__wrapper">
+    <el-card class="empty-table-view-card__wrapper">
+      <template #header>还没有学生信息</template>
 
-    <el-upload
-      action="#"
-      :auto-upload="false"
-      :on-change="uploadFile"
-      :limit="1"
-      :show-file-list="false"
-      accept=".xls,.xlsx"
-    >
-      <el-button type="primary" size="large" style="width: 150px">
-        立 即 导 入 <el-icon class="el-icon--right"><Upload /></el-icon>
-      </el-button>
-    </el-upload>
-  </el-card>
+      <el-upload
+        action="#"
+        :auto-upload="false"
+        :on-change="uploadFile"
+        :limit="1"
+        :show-file-list="false"
+        accept=".xls,.xlsx"
+      >
+        <el-button type="primary" size="large" style="width: 150px">
+          立 即 导 入 <el-icon class="el-icon--right"><Upload /></el-icon>
+        </el-button>
+      </el-upload>
+    </el-card>
+  </div>
 </template>
 
 <style scoped lang="scss">
 .empty-table-view__wrapper {
-  height: 220px;
-  width: 360px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .empty-table-view-card__wrapper {
+    height: 220px;
+    width: 360px;
+  }
 }
 
 :deep(.el-card__body) {

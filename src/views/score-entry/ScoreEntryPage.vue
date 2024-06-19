@@ -4,8 +4,14 @@ import { ref } from 'vue'
 import ScoreTableView from '@/views/score-entry/ScoreTableView.vue'
 import InputScoreView from '@/views/score-entry/InputScoreView.vue'
 
-const tableRef = ref()
-const inputScoreRef = ref()
+const tableRef = ref<InstanceType<typeof ScoreTableView>>()
+const inputScoreRef = ref<InstanceType<typeof InputScoreView>>()
+
+const inputFocus = () => {
+  inputScoreRef.value?.inputFocus()
+}
+
+defineExpose({ inputFocus })
 </script>
 
 <template>

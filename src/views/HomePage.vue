@@ -11,14 +11,16 @@ import { useDataSourceStore } from '@/stores/data-source'
 
 const store = useDataSourceStore()
 
-const isNotEmpty = computed(() => store.data?.length)
-const title = ref(import.meta.env.VITE_GLOB_APP_TITLE)
-const activeName = ref('ScoreEntry')
-
 const tabData = [
   { label: '成绩录入', name: 'ScoreEntry', component: ScoreEntryPage },
   { label: '期末评语', name: 'FinalEvaluation', component: FinalEvaluationPage }
 ]
+
+const title = ref(import.meta.env.VITE_GLOB_APP_TITLE)
+
+const isNotEmpty = computed(() => store.data?.length)
+const activeName = ref(tabData[0].name)
+const comRef = ref<InstanceType<typeof ScoreEntryPage>>()
 
 const resetStuInfo = () => {
   ElMessageBox.confirm('确定要重置学生信息吗？', '提示', {
@@ -26,8 +28,17 @@ const resetStuInfo = () => {
     cancelButtonText: '取消',
     type: 'warning'
   }).then(() => {
+    // 重置tab页签
+    activeName.value = tabData[0].name
+    // 重置数据
     store.$reset()
   })
+}
+
+const handleTabChange = (tab: any) => {
+  if (tab.name === 'ScoreEntry') {
+    comRef.value?.inputFocus()
+  }
 }
 </script>
 
@@ -40,9 +51,14 @@ const resetStuInfo = () => {
       </el-button>
     </el-header>
     <el-main class="home-view-main__wrapper">
-      <el-tabs v-if="isNotEmpty" v-model="activeName" class="home-view-tabs">
+      <el-tabs
+        v-if="isNotEmpty"
+        v-model="activeName"
+        class="home-view-tabs"
+        @tab-change="handleTabChange"
+      >
         <el-tab-pane v-for="item in tabData" :key="item.name" :label="item.label" :name="item.name">
-          <component :is="item.component" />
+          <component ref="comRef" :is="item.component" />
         </el-tab-pane>
       </el-tabs>
       <empty-table-view v-else />

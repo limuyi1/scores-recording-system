@@ -16,8 +16,8 @@ const store = useDataSourceStore()
 
 const { data: originList } = storeToRefs(store)
 const options = ref<ListItemType[]>([])
-const select = ref()
-const input = ref()
+const nameInputRef = ref()
+const scoreInputRef = ref()
 
 const formData: ListItemType = reactive({
   id: null,
@@ -26,9 +26,13 @@ const formData: ListItemType = reactive({
 })
 
 onMounted(() => {
-  // 姓名获取焦点
-  select.value.focus()
+  inputFocus()
 })
+
+const inputFocus = () => {
+  // 姓名获取焦点
+  nameInputRef.value.focus()
+}
 
 /**
  * 获取非空输入分数的列表
@@ -109,7 +113,7 @@ const selectChange = (index: number) => {
     emit('scroll', index)
 
     setTimeout(() => {
-      input.value.focus()
+      scoreInputRef.value.focus()
     }, 100)
   }
 }
@@ -134,7 +138,7 @@ const onSubmit = () => {
     options.value = []
 
     // 重新聚焦到姓名输入框
-    select.value.focus()
+    nameInputRef.value.focus()
   }
 }
 
@@ -150,7 +154,7 @@ const editScore = (data: ListItemType) => {
   formData.score = data.score
 }
 
-defineExpose({ editScore })
+defineExpose({ editScore, inputFocus })
 </script>
 
 <template>
@@ -279,7 +283,7 @@ defineExpose({ editScore })
     <el-form ref="form" label-position="top" label-width="100px" :model="formData">
       <el-form-item label="姓名">
         <el-select
-          ref="select"
+          ref="nameInputRef"
           style="width: 400px"
           v-model="formData.id"
           size="large"
@@ -294,7 +298,7 @@ defineExpose({ editScore })
       </el-form-item>
       <el-form-item label="分数">
         <el-input-number
-          ref="input"
+          ref="scoreInputRef"
           style="width: 400px"
           v-model="formData.score"
           size="large"
