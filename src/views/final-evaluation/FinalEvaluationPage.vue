@@ -1,15 +1,29 @@
 <script setup lang="ts">
-import EvaluationFormView from '@/views/final-evaluation/components/EvaluationFormView.vue'
+import { ref } from 'vue'
+
+import EvaluationTableView from '@/views/final-evaluation/components/EvaluationTableView.vue'
 import ToolPanelView from '@/views/final-evaluation/components/ToolPanelView.vue'
+
+const toolPanelViewRef = ref<InstanceType<typeof ToolPanelView>>()
+
+const autoFocus = () => {
+  toolPanelViewRef.value?.autoFocus()
+}
+
+defineExpose({ autoFocus })
 </script>
 
 <template>
   <div class="final-evaluation-page__wrapper">
     <div class="final-evaluation-page--left">
-      <evaluation-form-view />
+      <el-scrollbar>
+        <evaluation-table-view />
+      </el-scrollbar>
     </div>
     <div class="final-evaluation-page--right">
-      <tool-panel-view />
+      <el-scrollbar>
+        <tool-panel-view ref="toolPanelViewRef" />
+      </el-scrollbar>
     </div>
   </div>
 </template>
@@ -21,13 +35,13 @@ import ToolPanelView from '@/views/final-evaluation/components/ToolPanelView.vue
   display: flex;
 
   .final-evaluation-page--left {
-    min-width: 50%;
+    height: 100%;
+    max-width: 70%;
   }
 
   .final-evaluation-page--right {
+    height: 100%;
     flex: 1;
-    padding: 0 20px 20px;
-    box-sizing: border-box;
   }
 }
 </style>

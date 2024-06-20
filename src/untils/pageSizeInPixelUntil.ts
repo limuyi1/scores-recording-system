@@ -1,9 +1,6 @@
-enum Pages {
-  A4 = 'A4',
-  A3 = 'A3',
-  B3 = 'B3',
-  B4 = 'B4'
-}
+import type { PagesEnum } from '@/types/Common'
+import { useConfigurationStore } from '@/stores/configuration'
+import { storeToRefs } from 'pinia'
 
 const getDPI = () => {
   const tempDiv = document.createElement('div')
@@ -28,7 +25,7 @@ const mmToPixel = (mm: number) => {
  * 获取页面尺寸
  * @param pageSize
  */
-const pageSizeInPixels = (pageSize: Pages): { width: number; height: number } => {
+const pageSizeInPixels = (pageSize: PagesEnum): { width: number; height: number } => {
   const pageSizeMap = {
     A3: { width: 297, height: 420 },
     A4: { width: 210, height: 297 },
@@ -42,4 +39,4 @@ const pageSizeInPixels = (pageSize: Pages): { width: number; height: number } =>
   return { width: width_px, height: height_px }
 }
 
-export { pageSizeInPixels, mmToPixel, Pages }
+export { pageSizeInPixels, mmToPixel }

@@ -9,11 +9,11 @@ const activeNames = reactive([])
 </script>
 
 <template>
-  <el-card shadow="always">
-    <template #header>页面配置</template>
-    <el-form ref="form" label-position="top" label-width="100px" :model="formData">
+  <el-card class="configuration-card__wrapper" shadow="always">
+    <template #header>配置</template>
+    <el-form ref="form" label-position="top" :model="formData">
       <el-collapse class="configuration-collapse__wrapper" v-model="activeNames">
-        <el-collapse-item title="字体配置" name="configuration">
+        <el-collapse-item title="基础配置" name="configuration">
           <el-row :gutter="20">
             <el-col :span="8">
               <el-form-item label="整体字号">
@@ -79,12 +79,30 @@ const activeNames = reactive([])
             </el-col>
             <el-col :span="8"> </el-col>
           </el-row>
+          <el-row :gutter="20">
+            <el-col :span="8">
+              <el-form-item label="页面类型">
+                <el-select
+                  v-model="formData.pageType"
+                  placeholder="请选择页面类型"
+                  style="width: 100%"
+                >
+                  <el-option
+                    v-for="item in formData.pageTypeList"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                  />
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-collapse-item>
       </el-collapse>
 
       <el-row :gutter="20">
         <el-col :span="16">
-          <el-form-item label="落款名称">
+          <el-form-item label="落款名">
             <el-input
               style="width: 100%"
               v-model="formData.inscribe"
@@ -101,7 +119,11 @@ const activeNames = reactive([])
 </template>
 
 <style scoped lang="scss">
-.configuration-collapse__wrapper {
+.configuration-card__wrapper {
   margin-bottom: 16px;
+
+  .configuration-collapse__wrapper {
+    margin-bottom: 16px;
+  }
 }
 </style>

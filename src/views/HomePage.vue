@@ -12,11 +12,10 @@ import { useDataSourceStore } from '@/stores/data-source'
 const store = useDataSourceStore()
 
 const tabData = [
-  { label: '成绩录入', name: 'ScoreEntry', refName: 'scoreEntryRef', component: ScoreEntryPage },
+  { label: '成绩录入', name: 'ScoreEntry', component: ScoreEntryPage },
   {
     label: '期末评语',
     name: 'FinalEvaluation',
-    refName: 'finalEvaluationRef',
     component: FinalEvaluationPage
   }
 ]
@@ -25,7 +24,7 @@ const title = ref(import.meta.env.VITE_GLOB_APP_TITLE)
 
 const isNotEmpty = computed(() => store.data?.length)
 const activeName = ref(tabData[0].name)
-const scoreEntryRef = ref()
+const compRef = ref()
 
 const resetStuInfo = () => {
   ElMessageBox.confirm('确定要重置学生信息吗？', '提示', {
@@ -41,9 +40,7 @@ const resetStuInfo = () => {
 }
 
 const handleTabChange = (tabName: string) => {
-  if (tabName === tabData[0].name) {
-    scoreEntryRef.value[0]?.inputFocus()
-  }
+  compRef.value[tabName === tabData[0].name ? 0 : 1]?.autoFocus()
 }
 </script>
 
@@ -63,7 +60,7 @@ const handleTabChange = (tabName: string) => {
         @tab-change="handleTabChange"
       >
         <el-tab-pane v-for="item in tabData" :key="item.name" :label="item.label" :name="item.name">
-          <component :ref="item.refName" :is="item.component" />
+          <component ref="compRef" :is="item.component" />
         </el-tab-pane>
       </el-tabs>
       <empty-table-view v-else />

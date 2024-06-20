@@ -2,27 +2,27 @@
 import { ref } from 'vue'
 
 import ScoreTableView from '@/views/score-entry/components/ScoreTableView.vue'
-import InputScoreView from '@/views/score-entry/components/InputScoreView.vue'
+import InputDataView from '@/views/score-entry/components/InputDataView.vue'
 
 const tableRef = ref<InstanceType<typeof ScoreTableView>>()
-const inputScoreRef = ref<InstanceType<typeof InputScoreView>>()
+const inputDataRef = ref<InstanceType<typeof InputDataView>>()
 
-const inputFocus = () => {
-  inputScoreRef.value?.autoFocus()
+const autoFocus = () => {
+  inputDataRef.value?.autoFocus()
 }
 
-defineExpose({ inputFocus })
+defineExpose({ autoFocus })
 </script>
 
 <template>
   <el-container class="score-entry-page__wrapper">
     <el-aside width="calc(50%)">
-      <score-table-view ref="tableRef" @edit="(data) => inputScoreRef?.editData(data)" />
+      <score-table-view ref="tableRef" @edit="(data) => inputDataRef?.editData(data)" />
     </el-aside>
     <el-main class="score-entry-page--main__wrapper">
       <el-scrollbar>
-        <input-score-view
-          ref="inputScoreRef"
+        <input-data-view
+          ref="inputDataRef"
           @scroll="(index) => tableRef?.scroll(index)"
           @submit="(data) => tableRef?.setScore(data)"
         />

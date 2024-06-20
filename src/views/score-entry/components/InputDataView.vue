@@ -29,19 +29,15 @@ defineExpose({
 </script>
 
 <template>
-  <div class="input-score-view__wrapper">
+  <div class="input-data-view__wrapper">
     <statistics-card />
     <input-card ref="inputCardRef" />
   </div>
 </template>
 
 <style scoped lang="scss">
-.input-score-view__wrapper {
+.input-data-view__wrapper {
   padding: 0 12px 0 16px;
   box-sizing: border-box;
-
-  .tools-btn {
-    margin-bottom: 15px;
-  }
 }
 </style>

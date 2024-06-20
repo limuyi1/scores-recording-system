@@ -6,6 +6,14 @@ import { storeToRefs } from 'pinia'
 import { useDataSourceStore } from '@/stores/data-source'
 
 import type { ListItemType } from '@/types/DataSource'
+import { InputEnum } from '@/types/Common'
+
+interface Props {
+  type: InputEnum
+}
+const props = withDefaults(defineProps<Props>(), {
+  type: InputEnum.SCORE
+})
 
 const emit = defineEmits(['scroll', 'submit'])
 
@@ -18,7 +26,8 @@ const scoreInputRef = ref()
 const formData: ListItemType = reactive({
   id: null,
   name: '',
-  score: null
+  score: null,
+  comment: null
 })
 
 onMounted(() => {
@@ -114,7 +123,7 @@ defineExpose({ editData, autoFocus })
           style="width: 400px"
           v-model="formData.id"
           size="large"
-          placeholder="请输入学生姓名"
+          placeholder="请输入搜索学生姓名"
           filterable
           remote
           :remote-method="remoteMethod"
@@ -123,7 +132,7 @@ defineExpose({ editData, autoFocus })
           <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id" />
         </el-select>
       </el-form-item>
-      <el-form-item label="分数">
+      <el-form-item v-if="props.type === InputEnum.SCORE" label="分数">
         <el-input-number
           ref="scoreInputRef"
           style="width: 400px"
@@ -136,6 +145,18 @@ defineExpose({ editData, autoFocus })
           @keyup.enter="onSubmit"
         ></el-input-number>
       </el-form-item>
+      <el-form-item v-if="props.type === InputEnum.COMMENT" label="评价">
+        <el-input
+          style="width: 400px"
+          v-model="formData.comment"
+          size="large"
+          type="textarea"
+          placeholder="请输入学生评价"
+          :rows="3"
+          :disabled="!formData.id"
+          @keyup.enter="onSubmit"
+        ></el-input>
+      </el-form-item>
       <el-form-item>
         <el-button
           style="width: 400px"
@@ -145,7 +166,7 @@ defineExpose({ editData, autoFocus })
           :disabled="!formData.id"
           @click="onSubmit"
         >
-          <Promotion style="width: 16px; height: 16px" />&nbsp;生成
+          <Promotion style="width: 16px; height: 16px" />&nbsp;提 交
         </el-button>
       </el-form-item>
     </el-form>
