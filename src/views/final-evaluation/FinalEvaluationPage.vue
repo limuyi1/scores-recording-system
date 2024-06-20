@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import EvaluationFormView from '@/views/final-evaluation/components/EvaluationFormView.vue'
+import ToolPanelView from '@/views/final-evaluation/components/ToolPanelView.vue'
 </script>
 
 <template>
@@ -7,7 +8,9 @@ import EvaluationFormView from '@/views/final-evaluation/components/EvaluationFo
     <div class="final-evaluation-page--left">
       <evaluation-form-view />
     </div>
-    <div class="final-evaluation-page--right">final-evaluation-page--right</div>
+    <div class="final-evaluation-page--right">
+      <tool-panel-view />
+    </div>
   </div>
 </template>
 
