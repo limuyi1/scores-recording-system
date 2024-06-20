@@ -8,7 +8,7 @@ const tableRef = ref<InstanceType<typeof ScoreTableView>>()
 const inputScoreRef = ref<InstanceType<typeof InputScoreView>>()
 
 const inputFocus = () => {
-  inputScoreRef.value?.inputFocus()
+  inputScoreRef.value?.autoFocus()
 }
 
 defineExpose({ inputFocus })
@@ -17,17 +17,15 @@ defineExpose({ inputFocus })
 <template>
   <el-container class="score-entry-page__wrapper">
     <el-aside width="calc(50%)">
-      <score-table-view ref="tableRef" @edit="(data) => inputScoreRef?.editScore(data)" />
+      <score-table-view ref="tableRef" @edit="(data) => inputScoreRef?.editData(data)" />
     </el-aside>
     <el-main class="score-entry-page--main__wrapper">
       <el-scrollbar>
-        <div class="score-entry-page--body__wrapper">
-          <input-score-view
-            ref="inputScoreRef"
-            @scroll="(index) => tableRef?.scroll(index)"
-            @submit="(data) => tableRef?.setScore(data)"
-          />
-        </div>
+        <input-score-view
+          ref="inputScoreRef"
+          @scroll="(index) => tableRef?.scroll(index)"
+          @submit="(data) => tableRef?.setScore(data)"
+        />
       </el-scrollbar>
     </el-main>
   </el-container>
@@ -39,15 +37,6 @@ defineExpose({ inputFocus })
 
   .score-entry-page--main__wrapper {
     padding: 0;
-
-    .score-entry-page--body__wrapper {
-      padding: 0 12px 0 16px;
-      box-sizing: border-box;
-
-      .tools-btn {
-        margin-bottom: 15px;
-      }
-    }
   }
 }
 </style>

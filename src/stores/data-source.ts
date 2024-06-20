@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ListItemType } from '@/views/HomePage'
+import { ListItemType } from '@/types/DataSource'
 
 export const useDataSourceStore = defineStore('dataSource', {
   state: () => {

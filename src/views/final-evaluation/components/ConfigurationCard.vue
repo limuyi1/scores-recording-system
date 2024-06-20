@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
+import { storeToRefs } from 'pinia'
 
-const formData = reactive({
-  fontSize: 12, // 整体字号
-  salutationFontSize: 12, // 问候语字号
-  textFontSize: 12, // 正文字号
-  sealFontSize: 12, // 印章字号
-  classTeacherFontSize: 12, // 班主任字号
-  inscribeFontSize: 12, // 落款字号
-  inscribe: '' // 签名名称
-})
+import { useConfigurationStore } from '@/stores/configuration'
+
+const { data: formData } = storeToRefs(useConfigurationStore())
 const activeNames = reactive([])
 </script>
 
