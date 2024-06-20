@@ -21,11 +21,7 @@ defineExpose({ autoFocus })
     </el-aside>
     <el-main class="score-entry-page--main__wrapper">
       <el-scrollbar>
-        <input-data-view
-          ref="inputDataRef"
-          @scroll="(index) => tableRef?.scroll(index)"
-          @submit="(data) => tableRef?.setScore(data)"
-        />
+        <input-data-view ref="inputDataRef" @scroll="(index) => tableRef?.scroll(index)" />
       </el-scrollbar>
     </el-main>
   </el-container>

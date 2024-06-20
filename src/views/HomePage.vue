@@ -49,7 +49,7 @@ const handleTabChange = (tabName: string) => {
     <el-header class="home-view-header__wrapper">
       <span>{{ title }}</span>
       <el-button v-if="isNotEmpty" type="primary" icon="Upload" @click="resetStuInfo"
-        >重新上传
+        >重置信息
       </el-button>
     </el-header>
     <el-main class="home-view-main__wrapper">

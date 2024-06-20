@@ -19,5 +19,14 @@ export const useConfigurationStore = defineStore('configuration', {
       } as ConfigurationType
     }
   },
+  actions: {
+    fontSizeChange(fontSize: number) {
+      this.data.salutationFontSize = fontSize // 问候语字号
+      this.data.textFontSize = fontSize // 正文字号
+      this.data.sealFontSize = fontSize // 印章字号
+      this.data.classTeacherFontSize = fontSize // 班主任字号
+      this.data.inscribeFontSize = fontSize // 落款字号
+    }
+  },
   persist: true
 })

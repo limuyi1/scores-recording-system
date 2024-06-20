@@ -9,7 +9,7 @@ import type { ListItemType } from '@/types/DataSource'
 import { InputEnum } from '@/types/Common'
 
 interface Props {
-  type: InputEnum
+  type?: InputEnum
 }
 const props = withDefaults(defineProps<Props>(), {
   type: InputEnum.SCORE
@@ -23,6 +23,7 @@ const { data: originList } = storeToRefs(store)
 const options = ref<ListItemType[]>([])
 const nameInputRef = ref()
 const scoreInputRef = ref()
+const commentInputRef = ref()
 const formData: ListItemType = reactive({
   id: null,
   name: '',
@@ -61,16 +62,18 @@ const remoteMethod = (query: string) => {
  */
 const selectChange = (index: number) => {
   if (index) {
-    const { id, name, score } = originList.value[index - 1]
+    const { id, name, score, comment } = originList.value[index - 1]
     formData.id = id
     formData.name = name
     formData.score = score
+    formData.comment = comment
 
     // 表格滚动到相应姓名的位置
     emit('scroll', index)
 
     setTimeout(() => {
-      scoreInputRef.value.focus()
+      scoreInputRef.value?.focus()
+      commentInputRef.value?.focus()
     }, 100)
   }
 }
@@ -79,19 +82,22 @@ const selectChange = (index: number) => {
  * 提交方法
  */
 const onSubmit = () => {
-  // 添加分数
-  emit('submit', formData)
-
   // 设置分数
-  originList.value[Number(formData.id) - 1].score = formData.score
+  if (props.type === InputEnum.SCORE) {
+    originList.value[Number(formData.id) - 1].score = formData.score
+  }
+
+  // 设置评语
+  if (props.type === InputEnum.COMMENT) {
+    originList.value[Number(formData.id) - 1].comment = formData.comment
+  }
 
   // 删除已选中的选项
   if (formData.id) {
-    // originList.value.splice(formData.id - 1, 1)
-
     formData.id = null
     formData.name = ''
     formData.score = null
+    formData.comment = null
     options.value = []
 
     // 重新聚焦到姓名输入框
@@ -109,6 +115,7 @@ const editData = (data: ListItemType) => {
   formData.id = data.id
   formData.name = data.name
   formData.score = data.score
+  formData.comment = data.comment
 }
 
 defineExpose({ editData, autoFocus })
@@ -147,14 +154,16 @@ defineExpose({ editData, autoFocus })
       </el-form-item>
       <el-form-item v-if="props.type === InputEnum.COMMENT" label="评价">
         <el-input
+          ref="commentInputRef"
           style="width: 400px"
           v-model="formData.comment"
           size="large"
           type="textarea"
+          maxlength="500"
+          show-word-limit
           placeholder="请输入学生评价"
           :rows="3"
           :disabled="!formData.id"
-          @keyup.enter="onSubmit"
         ></el-input>
       </el-form-item>
       <el-form-item>

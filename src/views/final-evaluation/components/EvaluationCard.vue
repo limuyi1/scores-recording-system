@@ -7,6 +7,7 @@ import { useConfigurationStore } from '@/stores/configuration'
 import { mmToPixel, pageSizeInPixels } from '@/untils/pageSizeInPixelUntil'
 
 import type { ListItemType } from '@/types/DataSource'
+import { PagesEnum } from '@/types/Common'
 
 const store = useConfigurationStore()
 const { data: configuration } = storeToRefs(store)
@@ -35,7 +36,7 @@ const page = reactive({
   padding: 0
 })
 
-const init = (val) => {
+const init = (val: PagesEnum) => {
   const { width, height } = pageSizeInPixels(val)
   page.width = width
   page.height = height
@@ -45,39 +46,80 @@ const init = (val) => {
 
 watch(
   () => configuration.value.pageType,
-  (val) => {
+  (val: PagesEnum) => {
     init(val)
   },
   { immediate: true }
 )
+
+const getEvaluationText = (str: string | undefined | null) => {
+  if (str) {
+    return str.replaceAll('\n', '<br />')
+  }
+
+  return ''
+}
 </script>
 
 <template>
-  <el-card class="evaluation-card__wrapper" :style="{ width: page.width + 'px' }" shadow="always">
-    <div class="evaluation-card--table__wrapper" :style="{ padding: `${page.padding}px 0px` }">
+  <el-card
+    class="evaluation-card__wrapper"
+    :style="{ width: page.width + 'px', height: page.height + 'px' }"
+    shadow="always"
+  >
+    <div class="evaluation-card--table__wrapper" :style="{ padding: `${page.padding}px` }">
       <table class="evaluation-card--table" border="1" cellspacing="1">
         <template v-for="(item, index) in props.data">
           <!-- 每行两个 -->
-          <tr v-if="index % 2 == 0" :key="item.id">
-            <td
-              :style="{ width: props.cellInfo.width + 'px', height: props.cellInfo.height + 'px' }"
-              v-for="e in 2"
-              :key="e"
-            >
-              <div
-                v-if="props.data[index + e - 1]?.id"
-                class="evaluation-card--table--cell__wrapper"
-              >
-                <div class="table-td">{{ props.data[index + e - 1]?.name }}同学：</div>
-                <div class="table-td table-body">
-                  {{ props.data[index + e - 1]?.comment }}
+          <tr v-if="index % 2 == 0" :key="`${item.id}_${index}`">
+            <template v-for="e in 2">
+              <td v-if="props.data[index + e - 1]?.id" :key="e">
+                <div
+                  :style="{
+                    width: props.cellInfo.width + 'px',
+                    height: props.cellInfo.height + 'px',
+                    fontSize: configuration.fontSize + 'px'
+                  }"
+                  class="evaluation-card--table--cell__wrapper"
+                >
+                  <div
+                    :style="{
+                      fontSize: configuration.salutationFontSize + 'px'
+                    }"
+                    class="table-td"
+                  >
+                    {{ props.data[index + e - 1]?.name }}同学：
+                  </div>
+                  <div
+                    :style="{
+                      fontSize: configuration.textFontSize + 'px'
+                    }"
+                    class="table-td table-body"
+                    v-html="getEvaluationText(props.data[index + e - 1]?.comment)"
+                  ></div>
+                  <div class="table-footer">
+                    <span
+                      :style="{
+                        fontSize: configuration.sealFontSize + 'px'
+                      }"
+                      >学校：（章）</span
+                    >
+                    <span
+                      :style="{
+                        fontSize: configuration.classTeacherFontSize + 'px'
+                      }"
+                      >班主任：<span
+                        :style="{
+                          fontSize: configuration.inscribeFontSize + 'px'
+                        }"
+                        class="table-td"
+                        >{{ configuration.inscribe }}</span
+                      ></span
+                    >
+                  </div>
                 </div>
-                <div class="table-footer">
-                  <span>学校：（章）</span>
-                  <span>班主任：<span class="table-td">陈露</span></span>
-                </div>
-              </div>
-            </td>
+              </td>
+            </template>
           </tr>
         </template>
       </table>
@@ -98,7 +140,7 @@ td {
 
   .evaluation-card--table__wrapper {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     height: 100%;
     box-sizing: border-box;
 
@@ -106,8 +148,6 @@ td {
       border-collapse: collapse;
 
       .evaluation-card--table--cell__wrapper {
-        height: 100%;
-        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -122,6 +162,8 @@ td {
 
         .table-body {
           flex: 1;
+          text-indent: 2em;
+          overflow: hidden;
         }
 
         .table-footer {
@@ -134,5 +176,9 @@ td {
       }
     }
   }
+}
+
+.evaluation-card__wrapper :deep(.el-card__body) {
+  padding: 0;
 }
 </style>

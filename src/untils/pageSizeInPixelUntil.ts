@@ -39,4 +39,4 @@ const pageSizeInPixels = (pageSize: PagesEnum): { width: number; height: number 
   return { width: width_px, height: height_px }
 }
 
-export { pageSizeInPixels, mmToPixel }
+export { pageSizeInPixels, mmToPixel, getDPI }

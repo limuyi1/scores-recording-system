@@ -14,7 +14,7 @@ const { data: tableData } = storeToRefs(store)
 const configurationStore = useConfigurationStore()
 const { data: configuration } = storeToRefs(configurationStore)
 
-const dataSource = ref([])
+const dataSource = ref<any[][]>([])
 const cellInfo = reactive({
   width: 0,
   height: 0
@@ -39,8 +39,6 @@ const init = () => {
   const margin = width - cellInfo.width * 2
   // 每页的层数
   const cellLevel = Math.floor((height - margin) / cellInfo.height)
-
-  console.info(height - margin, cellLevel, 'cellLevel')
 
   // 按每层两个为一组
   dataSource.value = groupArray(tableData.value, cellLevel * 2)

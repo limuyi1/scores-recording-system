@@ -2,15 +2,35 @@
 import { reactive } from 'vue'
 import { storeToRefs } from 'pinia'
 
+import { exportPDF } from '@/untils/pdfUntil'
+
 import { useConfigurationStore } from '@/stores/configuration'
 
-const { data: formData } = storeToRefs(useConfigurationStore())
+const store = useConfigurationStore()
+const { data: formData } = storeToRefs(store)
+
 const activeNames = reactive([])
+
+const printFun = () => {
+  const doms = document.getElementsByClassName('evaluation-card__wrapper')
+  exportPDF(doms, formData.value.pageType)
+}
+
+const fontChange = (fontSize: number) => {
+  store.fontSizeChange(fontSize)
+}
 </script>
 
 <template>
   <el-card class="configuration-card__wrapper" shadow="always">
-    <template #header>配置</template>
+    <template #header>
+      <div class="configuration-card--header">
+        <span style="margin-right: 8px">配置</span>
+        <el-tooltip effect="dark" content="导出PDF" placement="top">
+          <el-button type="primary" size="small" icon="Printer" circle @click="printFun" />
+        </el-tooltip>
+      </div>
+    </template>
     <el-form ref="form" label-position="top" :model="formData">
       <el-collapse class="configuration-collapse__wrapper" v-model="activeNames">
         <el-collapse-item title="基础配置" name="configuration">
@@ -22,6 +42,7 @@ const activeNames = reactive([])
                   v-model="formData.fontSize"
                   :min="12"
                   :max="22"
+                  @change="fontChange"
                 ></el-input-number>
               </el-form-item>
             </el-col>
@@ -121,6 +142,11 @@ const activeNames = reactive([])
 <style scoped lang="scss">
 .configuration-card__wrapper {
   margin-bottom: 16px;
+
+  .configuration-card--header {
+    display: flex;
+    align-items: center;
+  }
 
   .configuration-collapse__wrapper {
     margin-bottom: 16px;

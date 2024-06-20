@@ -90,14 +90,6 @@ const delay = (ms: number) => {
 }
 
 /**
- * 设置分数
- * @param data
- */
-const setScore = (data: ListItemType) => {
-  tableData.value[Number(data.id) - 1].score = data.score
-}
-
-/**
  * 重置分数
  */
 const resetScore = () => {
@@ -118,7 +110,7 @@ const handleEdit = (data: ListItemType) => {
   emit('edit', data)
 }
 
-defineExpose({ scroll, setScore })
+defineExpose({ scroll })
 </script>
 
 <template>
