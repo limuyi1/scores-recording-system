@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import EvaluationCard from '@/views/final-evaluation/components/EvaluationCard.vue'
 
 import { useDataSourceStore } from '@/stores/data-source'
 import { useConfigurationStore } from '@/stores/configuration'
-import { pageSizeInPixels } from '@/untils/pageSizeInPixelUntil'
+import { mmToPixel, pageSizeInPixels } from '@/untils/pageSizeInPixelUntil'
 
 const store = useDataSourceStore()
 const { data: tableData } = storeToRefs(store)
@@ -15,8 +15,11 @@ const configurationStore = useConfigurationStore()
 const { data: configuration } = storeToRefs(configurationStore)
 
 const dataSource = ref([])
-
-const cellInfo = {
+const cellInfo = reactive({
+  width: 0,
+  height: 0
+})
+const cell = {
   width: 90,
   height: 69
 }
@@ -26,6 +29,11 @@ onMounted(() => {
 })
 
 const init = () => {
+  const cellWidth = mmToPixel(cell.width)
+  const cellHeight = mmToPixel(cell.height)
+  cellInfo.width = cellWidth
+  cellInfo.height = cellHeight
+
   // 根据人数分各个page页面
   const { width, height } = pageSizeInPixels(configuration.value.pageType)
   const margin = width - cellInfo.width * 2

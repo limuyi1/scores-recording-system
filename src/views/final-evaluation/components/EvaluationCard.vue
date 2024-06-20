@@ -20,16 +20,19 @@ interface Props {
   data: Array<ListItemType>
 }
 
-const props = withDefaults(defineProps<Props>(), {})
+const props = withDefaults(defineProps<Props>(), {
+  cellInfo: () => {
+    return {
+      width: 0,
+      height: 0
+    } as CellInfoType
+  }
+})
 
 const page = reactive({
   width: 0,
   height: 0,
   padding: 0
-})
-const cell = reactive({
-  width: 0,
-  height: 0
 })
 
 const init = (val) => {
@@ -37,12 +40,7 @@ const init = (val) => {
   page.width = width
   page.height = height
 
-  const cellWidth = mmToPixel(props.cellInfo?.width)
-  const cellHeight = mmToPixel(props.cellInfo?.height)
-  cell.width = cellWidth
-  cell.height = cellHeight
-
-  page.padding = (width - cellWidth * 2) / 2
+  page.padding = (width - props.cellInfo?.width * 2) / 2
 }
 
 watch(
@@ -62,7 +60,7 @@ watch(
           <!-- 每行两个 -->
           <tr v-if="index % 2 == 0" :key="item.id">
             <td
-              :style="{ width: cell.width + 'px', height: cell.height + 'px' }"
+              :style="{ width: props.cellInfo.width + 'px', height: props.cellInfo.height + 'px' }"
               v-for="e in 2"
               :key="e"
             >
