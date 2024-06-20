@@ -28,8 +28,8 @@ const exportPDF = async (
     format: pageType
   })
 
-  for (const ref of refs) {
-    const canvas = await html2canvas(ref, {
+  for (const [index, ref] of Array.from(refs).entries()) {
+    const canvas = await html2canvas(<HTMLElement>ref, {
       scale: scale
     })
     const imgData = canvas.toDataURL('image/png')
@@ -37,7 +37,10 @@ const exportPDF = async (
     const pdfWidth = doc.internal.pageSize.getWidth()
     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width
     doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight)
-    doc.addPage()
+
+    if (index !== refs.length - 1) {
+      doc.addPage()
+    }
   }
 
   doc.save(fileName)

@@ -10,11 +10,17 @@ const store = useDataSourceStore()
 const uploadFile = async (file: any) => {
   try {
     parseExcel(file).then(({ header, data }) => {
+      if (!header.includes('姓名')) {
+        ElMessage.error('表格中不包含[姓名列！')
+        return
+      }
+
       store.data = data.map((e: any, i) => {
         return {
           id: i + 1,
-          name: String(e[header[0]]),
-          score: null
+          name: String(e['姓名']),
+          score: e['分数'] ? Number(e['分数']) : null,
+          comment: e['评语'] ? String(e['评语']) : null
         }
       })
 
