@@ -25,7 +25,6 @@ const activeNames = reactive([])
                 <el-input-number
                   style="width: 100%"
                   v-model="formData.fontSize"
-                  size="large"
                   :min="12"
                   :max="22"
                 ></el-input-number>
@@ -36,7 +35,6 @@ const activeNames = reactive([])
                 <el-input-number
                   style="width: 100%"
                   v-model="formData.salutationFontSize"
-                  size="large"
                   :min="12"
                   :max="22"
                 ></el-input-number>
@@ -47,7 +45,6 @@ const activeNames = reactive([])
                 <el-input-number
                   style="width: 100%"
                   v-model="formData.textFontSize"
-                  size="large"
                   :min="12"
                   :max="22"
                 ></el-input-number>
@@ -60,7 +57,6 @@ const activeNames = reactive([])
                 <el-input-number
                   style="width: 100%"
                   v-model="formData.sealFontSize"
-                  size="large"
                   :min="12"
                   :max="22"
                 ></el-input-number>
@@ -71,7 +67,6 @@ const activeNames = reactive([])
                 <el-input-number
                   style="width: 100%"
                   v-model="formData.classTeacherFontSize"
-                  size="large"
                   :min="12"
                   :max="22"
                 ></el-input-number>
@@ -82,7 +77,6 @@ const activeNames = reactive([])
                 <el-input-number
                   style="width: 100%"
                   v-model="formData.inscribeFontSize"
-                  size="large"
                   :min="12"
                   :max="22"
                 ></el-input-number>
@@ -96,7 +90,14 @@ const activeNames = reactive([])
       <el-row :gutter="20">
         <el-col :span="16">
           <el-form-item label="落款名称">
-            <el-input style="width: 100%" v-model="formData.inscribe" size="large"></el-input>
+            <el-input
+              style="width: 100%"
+              v-model="formData.inscribe"
+              size="large"
+              show-word-limit
+              :minlength="1"
+              :maxlength="6"
+            ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
