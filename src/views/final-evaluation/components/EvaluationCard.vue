@@ -68,7 +68,7 @@ const getEvaluationText = (str: string | undefined | null) => {
     shadow="always"
   >
     <div class="evaluation-card--table__wrapper" :style="{ padding: `${page.padding}px` }">
-      <table class="evaluation-card--table" border="1" cellspacing="1">
+      <table class="evaluation-card--table" border="0" cellspacing="0">
         <template v-for="(item, index) in props.data">
           <!-- 每行两个 -->
           <tr v-if="index % 2 == 0" :key="`${item.id}_${index}`">
@@ -128,10 +128,9 @@ const getEvaluationText = (str: string | undefined | null) => {
 </template>
 
 <style scoped lang="scss">
-table,
-th,
 td {
-  border: 1px dashed #000000;
+  border-bottom: 1px dashed #000000;
+  border-right: 1px dashed #000000;
 }
 
 .evaluation-card__wrapper {
@@ -145,7 +144,9 @@ td {
     box-sizing: border-box;
 
     .evaluation-card--table {
-      border-collapse: collapse;
+      border-collapse: separate;
+      border-top: 1px dashed #000000;
+      border-left: 1px dashed #000000;
 
       .evaluation-card--table--cell__wrapper {
         display: flex;

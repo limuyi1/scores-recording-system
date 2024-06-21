@@ -12,7 +12,7 @@ const { data: formData } = storeToRefs(store)
 const activeNames = reactive([])
 
 const printFun = () => {
-  const doms = document.getElementsByClassName('evaluation-card__wrapper')
+  const doms = document.getElementsByClassName('evaluation-card--table__wrapper')
   exportPDF(doms, formData.value.pageType)
 }
 

@@ -11,7 +11,7 @@ const uploadFile = async (file: any) => {
   try {
     parseExcel(file).then(({ header, data }) => {
       if (!header.includes('姓名')) {
-        ElMessage.error('表格中不包含[姓名列！')
+        ElMessage.error('表格中不包含[姓名]列！')
         return
       }
 

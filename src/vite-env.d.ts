@@ -15,3 +15,4 @@ declare module '*.bmp'
 declare module '*.tiff'
 
 declare module 'element-plus/dist/locale/zh-cn.mjs'
+declare module 'dom-to-image'

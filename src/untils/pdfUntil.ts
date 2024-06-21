@@ -1,7 +1,6 @@
 import html2canvas from 'html2canvas'
-import jsPDF from 'jspdf'
-
-import { getDPI, pageSizeInPixels } from '@/untils/pageSizeInPixelUntil'
+import domtoimage from 'dom-to-image'
+import { jsPDF } from 'jspdf'
 
 import { PagesEnum } from '@/types/Common'
 import { ElLoading } from 'element-plus'
@@ -16,23 +15,29 @@ import { ElLoading } from 'element-plus'
 const exportPDF = async (
   refs: any,
   pageType: PagesEnum = PagesEnum.A4,
-  scale: number = 2,
+  scale: number = 3,
   fileName: string = new Date().toLocaleString() + '.pdf'
 ) => {
   const loading = ElLoading.service({
-    lock: true
+    lock: true,
+    text: '正在导出PDF...',
+    background: 'rgba(0, 0, 0, 0.7)'
   })
   const doc = new jsPDF({
     orientation: 'portrait',
-    unit: 'mm',
-    format: pageType
+    unit: 'px',
+    format: pageType,
+    compress: true, // 压缩文档
+    precision: 16 // 浮点数的精度
   })
 
   for (const [index, ref] of Array.from(refs).entries()) {
-    const canvas = await html2canvas(<HTMLElement>ref, {
-      scale: scale
+    const imageUrl = await domtoimage.toPng(ref, {
+      bgcolor: '#FFFFFF'
     })
-    const imgData = canvas.toDataURL('image/png')
+    const imgData = new Image()
+    imgData.src = imageUrl
+
     const imgProps = doc.getImageProperties(imgData)
     const pdfWidth = doc.internal.pageSize.getWidth()
     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width

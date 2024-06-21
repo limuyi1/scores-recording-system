@@ -11,6 +11,9 @@ dependencies:
   '@vueuse/core':
     specifier: ^10.7.1
     version: 10.7.1(vue@3.4.7)
+  dom-to-image:
+    specifier: ^2.6.0
+    version: 2.6.0
   element-plus:
     specifier: ^2.4.4
     version: 2.4.4(vue@3.4.7)
@@ -1736,6 +1739,10 @@ packages:
       domhandler: 4.3.1
       entities: 2.2.0
     dev: true
+
+  /dom-to-image@2.6.0:
+    resolution: {integrity: sha512-Dt0QdaHmLpjURjU7Tnu3AgYSF2LuOmksSGsUcE6ItvJoCWTBEmiMXcqBdNSAm9+QbbwD7JMoVsuuKX6ZVQv1qA==}
+    dev: false
 
   /domelementtype@2.3.0:
     resolution: {integrity: sha512-OLETBj6w0OsagBwdXnPdN0cnMfF9opN69co+7ZrbfPGrdpPVNBUj02spi6B1N7wChLQiPn4CSH/zJvXw56gmHw==}
