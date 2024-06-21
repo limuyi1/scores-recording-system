@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia'
 
 import { useConfigurationStore } from '@/stores/configuration'
 
-import { mmToPixel, pageSizeInPixels } from '@/untils/pageSizeInPixelUntil'
+import { pageSizeInPixels } from '@/untils/pageSizeInPixelUntil'
 
 import type { ListItemType } from '@/types/DataSource'
 import { PagesEnum } from '@/types/Common'
