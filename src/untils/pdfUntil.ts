@@ -28,16 +28,16 @@ const exportPDF = async (
     const doc = new jsPDF({
       orientation: 'portrait',
       unit: 'px',
-      format: pageType,
-      compress: true, // 压缩文档
-      precision: 16 // 浮点数的精度
+      format: pageType
+      // compress: true, // 压缩文档
+      // precision: 16 // 浮点数的精度
     })
 
     for (const [index, ref] of Array.from(refs).entries()) {
       const elm: HTMLElement = ref as HTMLElement
 
       const imageUrl = await domtoimage.toJpeg(elm, {
-        quality: 1,
+        quality: 0.8,
         width: elm?.offsetWidth * scale,
         height: elm?.offsetHeight * scale,
         bgcolor: '#FFFFFF',
