@@ -82,6 +82,8 @@ const selectChange = (index: number) => {
  * 提交方法
  */
 const onSubmit = () => {
+  console.info(formData.comment, 'formData.comment')
+
   // 设置分数
   if (props.type === InputEnum.SCORE) {
     originList.value[Number(formData.id) - 1].score = formData.score
@@ -89,7 +91,8 @@ const onSubmit = () => {
 
   // 设置评语
   if (props.type === InputEnum.COMMENT) {
-    originList.value[Number(formData.id) - 1].comment = formData.comment
+    originList.value[Number(formData.id) - 1].comment =
+      formData.comment === '' ? null : formData.comment
   }
 
   // 删除已选中的选项
@@ -106,7 +109,7 @@ const onSubmit = () => {
 }
 
 /**
- * 编辑分数
+ * 编辑数据
  * @param data
  */
 const editData = (data: ListItemType) => {
@@ -122,12 +125,12 @@ defineExpose({ editData, autoFocus })
 </script>
 
 <template>
-  <el-card style="max-width: 460px">
+  <el-card>
     <el-form ref="form" label-position="top" label-width="100px" :model="formData">
       <el-form-item label="姓名">
         <el-select
           ref="nameInputRef"
-          style="width: 400px"
+          style="width: 100%"
           v-model="formData.id"
           size="large"
           placeholder="请输入搜索学生姓名"
@@ -142,8 +145,8 @@ defineExpose({ editData, autoFocus })
       <el-form-item v-if="props.type === InputEnum.SCORE" label="分数">
         <el-input-number
           ref="scoreInputRef"
-          style="width: 400px"
-          v-model="formData.score"
+          style="width: 100%"
+          v-model.number="formData.score"
           size="large"
           :min="0"
           :max="100"
@@ -155,8 +158,8 @@ defineExpose({ editData, autoFocus })
       <el-form-item v-if="props.type === InputEnum.COMMENT" label="评价">
         <el-input
           ref="commentInputRef"
-          style="width: 400px"
-          v-model="formData.comment"
+          style="width: 100%"
+          v-model.trim="formData.comment"
           size="large"
           type="textarea"
           maxlength="500"
@@ -168,7 +171,7 @@ defineExpose({ editData, autoFocus })
       </el-form-item>
       <el-form-item>
         <el-button
-          style="width: 400px"
+          style="width: 100%"
           type="primary"
           size="large"
           round

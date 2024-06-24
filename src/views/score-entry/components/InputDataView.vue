@@ -33,7 +33,7 @@ defineExpose({
 <template>
   <div class="input-data-view__wrapper">
     <statistics-card />
-    <input-card ref="inputCardRef" @scroll="(index) => emit('scroll', index)"/>
+    <input-card style="width: 50%" ref="inputCardRef" @scroll="(index) => emit('scroll', index)" />
   </div>
 </template>
 

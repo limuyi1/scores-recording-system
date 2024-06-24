@@ -22,10 +22,12 @@ defineExpose({ autoFocus })
       </el-scrollbar>
     </div>
     <div class="final-evaluation-page--right">
-      <tool-panel-view
-        ref="toolPanelViewRef"
-        @scroll="(index) => evaluationTableViewRef?.scroll(index)"
-      />
+      <el-scrollbar>
+        <tool-panel-view
+          ref="toolPanelViewRef"
+          @scroll="(index) => evaluationTableViewRef?.scroll(index)"
+        />
+      </el-scrollbar>
     </div>
   </div>
 </template>
