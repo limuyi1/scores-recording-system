@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import EvaluationTableView from '@/views/final-evaluation/components/EvaluationTableView.vue'
 import ToolPanelView from '@/views/final-evaluation/components/ToolPanelView.vue'
 
+const evaluationTableViewRef = ref<InstanceType<typeof EvaluationTableView>>()
 const toolPanelViewRef = ref<InstanceType<typeof ToolPanelView>>()
 
 const autoFocus = () => {
@@ -17,13 +18,14 @@ defineExpose({ autoFocus })
   <div class="final-evaluation-page__wrapper">
     <div class="final-evaluation-page--left">
       <el-scrollbar>
-        <evaluation-table-view />
+        <evaluation-table-view ref="evaluationTableViewRef" />
       </el-scrollbar>
     </div>
     <div class="final-evaluation-page--right">
-      <el-scrollbar>
-        <tool-panel-view ref="toolPanelViewRef" />
-      </el-scrollbar>
+      <tool-panel-view
+        ref="toolPanelViewRef"
+        @scroll="(index) => evaluationTableViewRef?.scroll(index)"
+      />
     </div>
   </div>
 </template>

@@ -7,6 +7,8 @@ import type { ListItemType } from '@/types/DataSource'
 
 const inputCardRef = ref<InstanceType<typeof InputCard>>()
 
+const emit = defineEmits(['scroll'])
+
 /**
  * 自动聚焦
  */
@@ -31,7 +33,7 @@ defineExpose({
 <template>
   <div class="input-data-view__wrapper">
     <statistics-card />
-    <input-card ref="inputCardRef" />
+    <input-card ref="inputCardRef" @scroll="(index) => emit('scroll', index)"/>
   </div>
 </template>
 

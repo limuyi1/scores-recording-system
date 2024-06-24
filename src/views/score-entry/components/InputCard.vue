@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<Props>(), {
   type: InputEnum.SCORE
 })
 
-const emit = defineEmits(['scroll', 'submit'])
+const emit = defineEmits(['scroll'])
 
 const store = useDataSourceStore()
 

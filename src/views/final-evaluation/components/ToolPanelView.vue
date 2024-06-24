@@ -8,6 +8,8 @@ import { InputEnum } from '@/types/Common'
 
 const inputCardRef = ref<InstanceType<typeof InputCard>>()
 
+const emit = defineEmits(['scroll'])
+
 /**
  * 自动聚焦
  */
@@ -23,7 +25,11 @@ defineExpose({
 <template>
   <div class="tool-panel-view__wrapper">
     <configuration-card />
-    <input-card ref="inputCardRef" :type="InputEnum.COMMENT" />
+    <input-card
+      ref="inputCardRef"
+      :type="InputEnum.COMMENT"
+      @scroll="(index) => emit('scroll', index)"
+    />
   </div>
 </template>
 

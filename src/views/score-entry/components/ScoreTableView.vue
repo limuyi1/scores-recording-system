@@ -13,7 +13,7 @@ const emit = defineEmits(['edit'])
 const store = useDataSourceStore()
 
 const { data: tableData } = storeToRefs(store)
-const table = ref()
+const tableRef = ref()
 const loading = ref(false)
 
 /**
@@ -42,7 +42,7 @@ const tableRowClassName = ({ row }: { row: ListItemType }) => {
  * @param index
  */
 const scroll = (index: number) => {
-  table.value.scrollTo(0, 50 * (index - 1))
+  tableRef.value?.scrollTo(0, 50 * (index - 1))
 
   rowBlink(index)
 }
@@ -115,7 +115,7 @@ defineExpose({ scroll })
 
 <template>
   <el-table
-    ref="table"
+    ref="tableRef"
     v-loading="loading"
     :data="tableData"
     size="large"
