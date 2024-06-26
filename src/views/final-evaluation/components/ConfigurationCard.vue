@@ -1,19 +1,38 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 import { storeToRefs } from 'pinia'
+import { ElMessageBox } from 'element-plus'
 
 import { exportPDF } from '@/untils/pdfUntil'
 
 import { useConfigurationStore } from '@/stores/configuration'
+import { useDataSourceStore } from '@/stores/data-source'
 
 const store = useConfigurationStore()
+const dataStore = useDataSourceStore()
 const { data: formData } = storeToRefs(store)
 
 const activeNames = reactive([])
 
 const printFun = () => {
-  const doms = document.getElementsByClassName('evaluation-card--table__wrapper')
-  exportPDF(doms, formData.value.pageType)
+  // 统计未完成评语的人数
+  const unfinishedNum = dataStore.data.filter(
+    (item) => item.comment === null || item.comment === ''
+  ).length
+
+  if (unfinishedNum) {
+    ElMessageBox.confirm(`还有${unfinishedNum}位同学未完成评语，是否继续导出？`, '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(() => {
+      const doms = document.getElementsByClassName('evaluation-card--table__wrapper')
+      exportPDF(doms, formData.value.pageType)
+    })
+  } else {
+    const doms = document.getElementsByClassName('evaluation-card--table__wrapper')
+    exportPDF(doms, formData.value.pageType)
+  }
 }
 
 const fontChange = (fontSize: number) => {
