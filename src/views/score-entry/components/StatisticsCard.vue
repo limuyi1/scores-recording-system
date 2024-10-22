@@ -2,6 +2,8 @@
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 
+import StudentPopover from '@/views/score-entry/components/StudentPopover.vue'
+
 import { useDataSourceStore } from '@/stores/data-source'
 import { exportExcel } from '@/untils/xlsxUntil'
 
@@ -28,26 +30,6 @@ const hasNullScoreList = computed(() => {
 })
 
 /**
- * 获取对应分数的列表
- */
-const getScoreList = (score: number) => {
-  const data = originList.value as Array<ListItemType>
-  return data
-    .filter((e: ListItemType) => e.score && e.score >= score)
-    .sort((a, b) => (b.score || 0) - (a.score || 0))
-}
-
-/**
- * 获取小于等于60分数的列表
- */
-const le60ScoreList = () => {
-  const data = originList.value as Array<ListItemType>
-  return data
-    .filter((e: ListItemType) => e.score && e.score < 60)
-    .sort((a, b) => (b.score || 0) - (a.score || 0))
-}
-
-/**
  * 导出完成数据的 Excel
  * @param data
  * @param fileName
@@ -65,6 +47,7 @@ const exportExcelFun = (data: ListItemType[], fileName: string) => {
 
 <template>
   <el-card class="statistics-card__wrapper">
+    <!-- 全部 -->
     <div class="box-item">
       <div class="box-item--title">全部</div>
       <el-popover placement="bottom" :width="400" trigger="hover">
@@ -92,97 +75,42 @@ const exportExcelFun = (data: ListItemType[], fileName: string) => {
         @click="exportExcelFun(originList, '全部')"
       />
     </div>
+    <!-- 大于等于90 -->
     <div class="box-item">
       <div class="box-item--title">≥90分</div>
-      <template v-if="getScoreList(90).length">
-        <el-popover placement="bottom" :width="400" trigger="hover">
-          <template #reference>
-            <el-text style="cursor: pointer; width: 60px" tag="ins" type="primary"
-              >{{ getScoreList(90).length }} 人</el-text
-            >
-          </template>
-          <el-tag
-            v-for="item in getScoreList(90)"
-            :key="item.id"
-            style="margin: 0 3px 3px 0"
-            class="ml-2"
-            type="success"
-          >
-            {{ item.name }}
-          </el-tag>
-        </el-popover>
-        <el-button
-          type="primary"
-          size="small"
-          icon="Download"
-          circle
-          @click="exportExcelFun(getScoreList(90), '≥90分')"
-        />
-      </template>
-      <template v-else>
-        <el-text type="primary">/</el-text>
-      </template>
+      <student-popover
+        download-file-name="≥90分"
+        tag-type="success"
+        :condition="(e: ListItemType) => e.score && e.score >= 90"
+      />
     </div>
+    <!-- 大于等于80 -->
     <div class="box-item">
       <div class="box-item--title">≥80分</div>
-      <template v-if="getScoreList(80).length">
-        <el-popover placement="bottom" :width="400" trigger="hover">
-          <template #reference>
-            <el-text style="cursor: pointer; width: 60px" tag="ins" type="primary"
-              >{{ getScoreList(80).length }} 人</el-text
-            >
-          </template>
-          <el-tag
-            v-for="item in getScoreList(80)"
-            :key="item.id"
-            style="margin: 0 3px 3px 0"
-            class="ml-2"
-          >
-            {{ item.name }}
-          </el-tag>
-        </el-popover>
-        <el-button
-          type="primary"
-          size="small"
-          icon="Download"
-          circle
-          @click="exportExcelFun(getScoreList(80), '≥80分')"
-        />
-      </template>
-      <template v-else>
-        <el-text type="primary">/</el-text>
-      </template>
+      <student-popover
+        download-file-name="≥80分"
+        tag-type="primary"
+        :condition="(e: ListItemType) => e.score && e.score >= 80"
+      />
     </div>
+
+    <!-- 小于80分 -->
     <div class="box-item">
-      <div class="box-item--title">≤60分</div>
-      <template v-if="le60ScoreList().length">
-        <el-popover placement="bottom" :width="400" trigger="hover">
-          <template #reference>
-            <el-text style="cursor: pointer; width: 60px" tag="ins" type="primary"
-              >{{ le60ScoreList().length }} 人</el-text
-            >
-          </template>
-          <el-tag
-            v-for="item in le60ScoreList()"
-            :key="item.id"
-            style="margin: 0 3px 3px 0"
-            class="ml-2"
-            type="danger"
-          >
-            {{ item.name }}
-          </el-tag>
-        </el-popover>
-        <el-button
-          type="primary"
-          size="small"
-          icon="Download"
-          circle
-          @click="exportExcelFun(le60ScoreList(), '≤60分')"
-        />
-      </template>
-      <template v-else>
-        <el-text type="primary">/</el-text>
-      </template>
+      <div class="box-item--title">＜80分</div>
+      <student-popover
+        download-file-name="＜80分"
+        tag-type="warning"
+        :condition="(e: ListItemType) => e.score && e.score < 80"
+      />
+    </div>
+    <!-- 小于60 -->
+    <div class="box-item">
+      <div class="box-item--title">＜60分</div>
+      <student-popover
+        download-file-name="＜60分"
+        tag-type="danger"
+        :condition="(e: ListItemType) => e.score && e.score < 60"
+      />
     </div>
   </el-card>
 </template>
@@ -216,6 +144,7 @@ const exportExcelFun = (data: ListItemType[], fileName: string) => {
 
   .box-item:nth-child(1) {
     background-color: var(--el-color-info-light-9);
+
     .box-item--title {
       background-color: var(--el-color-info-light-8);
     }
@@ -223,6 +152,7 @@ const exportExcelFun = (data: ListItemType[], fileName: string) => {
 
   .box-item:nth-child(2) {
     background-color: var(--el-color-success-light-9);
+
     .box-item--title {
       background-color: var(--el-color-success-light-8);
     }
@@ -230,14 +160,24 @@ const exportExcelFun = (data: ListItemType[], fileName: string) => {
 
   .box-item:nth-child(3) {
     background-color: var(--el-color-primary-light-9);
+
     .box-item--title {
       background-color: var(--el-color-primary-light-8);
     }
   }
 
   .box-item:nth-child(4) {
+    background-color: var(--el-color-warning-light-9);
+
+    .box-item--title {
+      background-color: var(--el-color-warning-light-8);
+    }
+  }
+
+  .box-item:nth-child(5) {
     margin-bottom: 0;
     background-color: var(--el-color-danger-light-9);
+
     .box-item--title {
       background-color: var(--el-color-danger-light-8);
     }

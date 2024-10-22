@@ -20,8 +20,6 @@ const percentage = computed(() => {
   const count = data.value.length
   const notEmptyCount = data.value.filter((item) => item.comment !== null).length
 
-  console.info(count, notEmptyCount, (notEmptyCount / count).toFixed(2))
-
   return Number((notEmptyCount / count).toFixed(2)) * 100
 })
 
