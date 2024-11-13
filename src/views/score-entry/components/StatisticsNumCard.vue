@@ -48,34 +48,6 @@ const exportExcelFun = (data: ListItemType[], fileName: string) => {
 <template>
   <el-card class="statistics-card__wrapper">
     <el-scrollbar>
-      <!-- 全部 -->
-      <div class="box-item">
-        <div class="box-item--title">全部</div>
-        <el-popover placement="bottom" :width="400" trigger="hover">
-          <template #reference>
-            <el-text style="cursor: pointer; width: 60px" tag="ins" type="primary">
-              {{ originList.length }} / {{ nonNullScoreList.length }}
-            </el-text>
-          </template>
-          <el-tag
-            v-for="item in hasNullScoreList"
-            :key="item.id"
-            style="margin: 0 3px 3px 0"
-            class="ml-2"
-            type="info"
-          >
-            {{ item.name }}
-          </el-tag>
-        </el-popover>
-        <el-button
-          v-if="nonNullScoreList.length"
-          type="primary"
-          size="small"
-          icon="Download"
-          circle
-          @click="exportExcelFun(originList, '全部')"
-        />
-      </div>
       <!-- 大于等于90 -->
       <div class="box-item">
         <div class="box-item--title">≥90分</div>
@@ -118,14 +90,6 @@ const exportExcelFun = (data: ListItemType[], fileName: string) => {
 
 <style scoped lang="scss">
 .statistics-card__wrapper {
-  height: 300px;
-  max-height: calc((100% - 20px) / 2);
-
-  :deep(.el-card__body) {
-    height: 100%;
-    box-sizing: border-box;
-  }
-
   .box-item {
     display: flex;
     align-items: center;
@@ -149,15 +113,15 @@ const exportExcelFun = (data: ListItemType[], fileName: string) => {
     margin-right: 16px;
   }
 
+  //.box-item:nth-child(1) {
+  //  background-color: var(--el-color-info-light-9);
+  //
+  //  .box-item--title {
+  //    background-color: var(--el-color-info-light-8);
+  //  }
+  //}
+
   .box-item:nth-child(1) {
-    background-color: var(--el-color-info-light-9);
-
-    .box-item--title {
-      background-color: var(--el-color-info-light-8);
-    }
-  }
-
-  .box-item:nth-child(2) {
     background-color: var(--el-color-success-light-9);
 
     .box-item--title {
@@ -165,7 +129,7 @@ const exportExcelFun = (data: ListItemType[], fileName: string) => {
     }
   }
 
-  .box-item:nth-child(3) {
+  .box-item:nth-child(2) {
     background-color: var(--el-color-primary-light-9);
 
     .box-item--title {
@@ -173,7 +137,7 @@ const exportExcelFun = (data: ListItemType[], fileName: string) => {
     }
   }
 
-  .box-item:nth-child(4) {
+  .box-item:nth-child(3) {
     background-color: var(--el-color-warning-light-9);
 
     .box-item--title {
@@ -181,7 +145,7 @@ const exportExcelFun = (data: ListItemType[], fileName: string) => {
     }
   }
 
-  .box-item:nth-child(5) {
+  .box-item:nth-child(4) {
     margin-bottom: 0;
     background-color: var(--el-color-danger-light-9);
 

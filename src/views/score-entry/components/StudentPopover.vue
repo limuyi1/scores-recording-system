@@ -48,7 +48,7 @@ const exportExcelFun = (data: ListItemType[], fileName: string) => {
 
 <template>
   <template v-if="getList().length">
-    <el-popover placement="bottom" :width="400" trigger="hover">
+    <el-popover placement="top" :width="400" trigger="hover">
       <template #reference>
         <el-text style="cursor: pointer; width: 60px" tag="ins" type="primary">
           <slot :data="getList()">{{ getList().length }} 人</slot>

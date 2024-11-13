@@ -1,47 +1,20 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { useDataSourceStore } from '@/stores/data-source'
-
-import { computed } from 'vue'
-
-const store = useDataSourceStore()
-
-const { data } = storeToRefs(store)
-
-const percentage = computed(() => {
-  const count = data.value.length
-  const notEmptyCount = data.value.filter((item) => item.score !== null).length
-
-  return Number((notEmptyCount / count).toFixed(2)) * 100
-})
-
-/**
- * 颜色
- * @param percentage
- */
-const colorFun = (percentage: number) => {
-  return `rgba(82, 155, 46,${percentage / 100})`
-}
-
-/**
- * 进度值
- * @param percentage
- */
-const progressTextFormat = (percentage: number) => {
-  return `完成率：${percentage}%`
-}
+import StatisticsRateCard from '@/views/score-entry/components/StatisticsRateCard.vue'
+import StatisticsNumCard from '@/views/score-entry/components/StatisticsNumCard.vue'
 </script>
 
 <template>
-  <div>
-    <el-progress
-      text-inside
-      :stroke-width="26"
-      :percentage="percentage"
-      :format="progressTextFormat"
-      :color="colorFun"
-    />
+  <div class="score-analysis-view__wrapper">
+    <statistics-rate-card />
+    <div class="space"></div>
+    <!--    <statistics-num-card />-->
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.score-analysis-view__wrapper {
+  .space {
+    height: 12px;
+  }
+}
+</style>

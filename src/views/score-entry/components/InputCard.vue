@@ -126,7 +126,7 @@ defineExpose({ editData, autoFocus })
 </script>
 
 <template>
-  <el-card>
+  <el-card class="input-card__wrapper">
     <el-form ref="form" label-position="top" label-width="100px" :model="formData">
       <el-form-item label="姓名">
         <el-select
@@ -186,4 +186,7 @@ defineExpose({ editData, autoFocus })
   </el-card>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.input-card__wrapper {
+}
+</style>

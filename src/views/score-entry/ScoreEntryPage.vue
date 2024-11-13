@@ -20,10 +20,10 @@ defineExpose({ autoFocus })
     <el-col class="score-entry-page--col__wrapper" :span="6">
       <score-table-view ref="tableRef" @edit="(data) => inputDataRef?.editData(data)" />
     </el-col>
-    <el-col class="score-entry-page--col__wrapper" :span="6">
+    <el-col class="score-entry-page--col__wrapper" :span="8">
       <input-data-view ref="inputDataRef" @scroll="(index) => tableRef?.scroll(index)" />
     </el-col>
-    <el-col class="score-entry-page--col__wrapper" :span="12">
+    <el-col class="score-entry-page--col__wrapper" :span="10">
       <score-analysis-view />
     </el-col>
   </el-row>
