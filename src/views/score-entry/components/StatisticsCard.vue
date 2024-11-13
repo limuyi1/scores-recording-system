@@ -47,77 +47,84 @@ const exportExcelFun = (data: ListItemType[], fileName: string) => {
 
 <template>
   <el-card class="statistics-card__wrapper">
-    <!-- 全部 -->
-    <div class="box-item">
-      <div class="box-item--title">全部</div>
-      <el-popover placement="bottom" :width="400" trigger="hover">
-        <template #reference>
-          <el-text style="cursor: pointer; width: 60px" tag="ins" type="primary">
-            {{ originList.length }} / {{ nonNullScoreList.length }}
-          </el-text>
-        </template>
-        <el-tag
-          v-for="item in hasNullScoreList"
-          :key="item.id"
-          style="margin: 0 3px 3px 0"
-          class="ml-2"
-          type="info"
-        >
-          {{ item.name }}
-        </el-tag>
-      </el-popover>
-      <el-button
-        v-if="nonNullScoreList.length"
-        type="primary"
-        size="small"
-        icon="Download"
-        circle
-        @click="exportExcelFun(originList, '全部')"
-      />
-    </div>
-    <!-- 大于等于90 -->
-    <div class="box-item">
-      <div class="box-item--title">≥90分</div>
-      <student-popover
-        download-file-name="≥90分"
-        tag-type="success"
-        :condition="(e: ListItemType) => e.score && e.score >= 90"
-      />
-    </div>
-    <!-- 大于等于80 -->
-    <div class="box-item">
-      <div class="box-item--title">≥80分</div>
-      <student-popover
-        download-file-name="≥80分"
-        tag-type="primary"
-        :condition="(e: ListItemType) => e.score && e.score >= 80"
-      />
-    </div>
-
-    <!-- 小于80分 -->
-    <div class="box-item">
-      <div class="box-item--title">＜80分</div>
-      <student-popover
-        download-file-name="＜80分"
-        tag-type="warning"
-        :condition="(e: ListItemType) => e.score && e.score < 80"
-      />
-    </div>
-    <!-- 小于60 -->
-    <div class="box-item">
-      <div class="box-item--title">＜60分</div>
-      <student-popover
-        download-file-name="＜60分"
-        tag-type="danger"
-        :condition="(e: ListItemType) => e.score && e.score < 60"
-      />
-    </div>
+    <el-scrollbar>
+      <!-- 全部 -->
+      <div class="box-item">
+        <div class="box-item--title">全部</div>
+        <el-popover placement="bottom" :width="400" trigger="hover">
+          <template #reference>
+            <el-text style="cursor: pointer; width: 60px" tag="ins" type="primary">
+              {{ originList.length }} / {{ nonNullScoreList.length }}
+            </el-text>
+          </template>
+          <el-tag
+            v-for="item in hasNullScoreList"
+            :key="item.id"
+            style="margin: 0 3px 3px 0"
+            class="ml-2"
+            type="info"
+          >
+            {{ item.name }}
+          </el-tag>
+        </el-popover>
+        <el-button
+          v-if="nonNullScoreList.length"
+          type="primary"
+          size="small"
+          icon="Download"
+          circle
+          @click="exportExcelFun(originList, '全部')"
+        />
+      </div>
+      <!-- 大于等于90 -->
+      <div class="box-item">
+        <div class="box-item--title">≥90分</div>
+        <student-popover
+          download-file-name="≥90分"
+          tag-type="success"
+          :condition="(e: ListItemType) => e.score && e.score >= 90"
+        />
+      </div>
+      <!-- 大于等于80 -->
+      <div class="box-item">
+        <div class="box-item--title">≥80分</div>
+        <student-popover
+          download-file-name="≥80分"
+          tag-type="primary"
+          :condition="(e: ListItemType) => e.score && e.score >= 80"
+        />
+      </div>
+      <!-- 小于80分 -->
+      <div class="box-item">
+        <div class="box-item--title">＜80分</div>
+        <student-popover
+          download-file-name="＜80分"
+          tag-type="warning"
+          :condition="(e: ListItemType) => e.score && e.score < 80"
+        />
+      </div>
+      <!-- 小于60 -->
+      <div class="box-item">
+        <div class="box-item--title">＜60分</div>
+        <student-popover
+          download-file-name="＜60分"
+          tag-type="danger"
+          :condition="(e: ListItemType) => e.score && e.score < 60"
+        />
+      </div>
+    </el-scrollbar>
   </el-card>
 </template>
 
 <style scoped lang="scss">
 .statistics-card__wrapper {
-  margin-bottom: 16px;
+  height: 300px;
+  max-height: calc((100% - 20px) / 2);
+
+  :deep(.el-card__body) {
+    height: 100%;
+    box-sizing: border-box;
+  }
 
   .box-item {
     display: flex;

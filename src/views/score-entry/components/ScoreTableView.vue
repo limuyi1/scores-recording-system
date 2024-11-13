@@ -121,31 +121,20 @@ defineExpose({ scroll })
     size="large"
     height="calc(100%)"
     :row-class-name="tableRowClassName"
+    @row-click="handleEdit"
   >
     <el-table-column prop="id" label="序号" width="60" align="center" />
-    <el-table-column prop="name" label="姓名" width="300" />
-    <el-table-column prop="score" label="分数" />
-    <el-table-column label="操作" width="180" align="center">
+    <el-table-column prop="name" label="姓名" width="200" />
+    <el-table-column prop="score" label="分数">
       <template #header>
         <div class="operate-btn__wrapper">
-          <div class="operate-btn--text">操作</div>
+          <div class="operate-btn--text">分数</div>
           <el-tooltip effect="dark" placement="top" append-to="body" content="重置分数">
             <el-icon :size="18" color="var(--el-color-primary)">
               <Refresh style="cursor: pointer" @click="resetScore" />
             </el-icon>
           </el-tooltip>
         </div>
-      </template>
-      <template #default="scope">
-        <el-button
-          v-if="scope.row.score"
-          size="small"
-          type="primary"
-          circle
-          @click="handleEdit(scope.row)"
-        >
-          <Edit style="width: 14px; height: 14px" />
-        </el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -155,7 +144,6 @@ defineExpose({ scroll })
 .operate-btn__wrapper {
   display: flex;
   align-items: center;
-  justify-content: center;
 
   .operate-btn--text {
     margin-right: 8px;

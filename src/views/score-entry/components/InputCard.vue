@@ -82,8 +82,6 @@ const selectChange = (index: number) => {
  * 提交方法
  */
 const onSubmit = () => {
-  console.info(formData.comment, 'formData.comment')
-
   // 设置分数
   if (props.type === InputEnum.SCORE) {
     originList.value[Number(formData.id) - 1].score = formData.score
@@ -119,6 +117,9 @@ const editData = (data: ListItemType) => {
   formData.name = data.name
   formData.score = data.score
   formData.comment = data.comment
+
+  // 重新聚焦到分数输入框
+  scoreInputRef.value?.focus()
 }
 
 defineExpose({ editData, autoFocus })

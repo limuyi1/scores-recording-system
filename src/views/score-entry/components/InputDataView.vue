@@ -33,13 +33,18 @@ defineExpose({
 <template>
   <div class="input-data-view__wrapper">
     <statistics-card />
-    <input-card style="width: 50%" ref="inputCardRef" @scroll="(index) => emit('scroll', index)" />
+    <div class="space"></div>
+    <input-card ref="inputCardRef" @scroll="(index) => emit('scroll', index)" />
   </div>
 </template>
 
 <style scoped lang="scss">
 .input-data-view__wrapper {
-  padding: 0 12px 0 16px;
+  height: calc(100vh - 60px - 55px - 20px);
   box-sizing: border-box;
+
+  .space {
+    height: 20px;
+  }
 }
 </style>
