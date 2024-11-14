@@ -7,7 +7,7 @@ import StatisticsNumCard from '@/views/score-entry/components/StatisticsNumCard.
   <div class="score-analysis-view__wrapper">
     <statistics-rate-card />
     <div class="space"></div>
-    <!--    <statistics-num-card />-->
+    <statistics-num-card />
   </div>
 </template>
 

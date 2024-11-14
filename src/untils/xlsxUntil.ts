@@ -9,23 +9,26 @@ import { WorkBook } from 'xlsx'
  * @param file
  */
 const exportExcel = (
-  headerData: string[],
-  bodyData: any[][],
+  headerData?: string[],
+  bodyData?: any[][],
   fileName: string = new Date().toLocaleString() + '.xlsx',
   file?: WorkBook
 ) => {
-  const data = [headerData, ...bodyData]
-
   let workbook
-  if (!file) {
+  if (!file && headerData && bodyData) {
     workbook = XLSX.utils.book_new()
+    const data = [headerData, ...bodyData]
     const worksheet = XLSX.utils.aoa_to_sheet(data)
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1')
   } else {
     workbook = file
   }
 
-  const excelBuffer = XLSX.write(workbook, {
+  if (!workbook) {
+    return
+  }
+
+  const excelBuffer = XLSX.write(workbook!, {
     bookType: 'xlsx',
     type: 'array'
   })

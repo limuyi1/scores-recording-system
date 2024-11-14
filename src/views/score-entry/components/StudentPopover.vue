@@ -12,7 +12,7 @@ const { data: originList } = storeToRefs(store)
 
 interface Props {
   downloadFileName: string
-  tagType: string // success/info/warning/danger
+  tagType: string // 'primary' | 'success' | 'warning' | 'danger' | 'info'
   condition: Function
 }
 
