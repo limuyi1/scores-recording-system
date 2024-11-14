@@ -1,6 +1,13 @@
 import * as XLSX from 'xlsx'
 import { WorkBook } from 'xlsx'
 
+const xlsxToImage = (data: any) => {
+  const workbook = XLSX.utils.book_new()
+  // const data = [headerData, ...bodyData]
+  const worksheet = XLSX.utils.aoa_to_sheet(data)
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1')
+}
+
 /**
  * 导出excel
  * @param headerData
