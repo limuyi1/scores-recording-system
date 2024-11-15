@@ -27,7 +27,8 @@ const percentage = computed(() => {
  * @param percentage
  */
 const colorFun = (percentage: number) => {
-  return `rgba(82, 155, 46,${percentage / 100})`
+  // return `rgba(82, 155, 46, ${percentage / 100})`
+  return `rgba(82, 155, 46, 1)`
 }
 
 /**
@@ -35,16 +36,8 @@ const colorFun = (percentage: number) => {
  * @param percentage
  */
 const progressTextFormat = (percentage: number) => {
-  return `完成率：${percentage}%`
+  return `完成率：${percentage.toFixed(2)}%`
 }
-
-/**
- * 获取非空输入分数的列表
- */
-const nonNullScoreList = computed(() => {
-  const data = originList.value as Array<ListItemType>
-  return data.filter((e: ListItemType) => e.score !== null)
-})
 
 /**
  * 获取未输入分数的列表
@@ -81,8 +74,10 @@ defineExpose({
       <el-popover placement="top" :width="400" trigger="hover">
         <template #reference>
           <el-progress
+            class="input-data-view--progress"
             text-inside
-            :stroke-width="26"
+            :stroke-width="18"
+            striped-flow
             :percentage="percentage"
             :format="progressTextFormat"
             :color="colorFun"
@@ -111,6 +106,13 @@ defineExpose({
 
   .space {
     height: 12px;
+  }
+
+  .input-data-view--progress {
+    :deep(.el-progress-bar__innerText) {
+      line-height: 18px;
+      margin-top: -5px;
+    }
   }
 }
 </style>

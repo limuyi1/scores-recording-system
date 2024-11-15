@@ -64,16 +64,16 @@ const exportExcelFun = (data: ListItemType[], fileName: string) => {
   XLSX.utils.book_append_sheet(workbook, sheet1, '总表')
 
   // ≥90分
-  const sheet2 = generateSheet(getList((e: ListItemType) => e.score && e.score >= 90))
+  const sheet2 = generateSheet(getList((e: ListItemType) => Boolean(e.score && e.score >= 90)))
   XLSX.utils.book_append_sheet(workbook, sheet2, '≥90分')
   // ≥80分
-  const sheet3 = generateSheet(getList((e: ListItemType) => e.score && e.score >= 80))
+  const sheet3 = generateSheet(getList((e: ListItemType) => Boolean(e.score && e.score >= 80)))
   XLSX.utils.book_append_sheet(workbook, sheet3, '≥80分')
   // ＜80分
-  const sheet4 = generateSheet(getList((e: ListItemType) => e.score && e.score < 80))
+  const sheet4 = generateSheet(getList((e: ListItemType) => Boolean(e.score && e.score < 80)))
   XLSX.utils.book_append_sheet(workbook, sheet4, '＜80分')
   // ＜60分
-  const sheet5 = generateSheet(getList((e: ListItemType) => e.score && e.score < 60))
+  const sheet5 = generateSheet(getList((e: ListItemType) => Boolean(e.score && e.score < 60)))
   XLSX.utils.book_append_sheet(workbook, sheet5, '＜60分')
 
   exportExcel(null, null, `${fileName}_${new Date().toLocaleString()}.xlsx`, workbook)

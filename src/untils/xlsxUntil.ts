@@ -1,11 +1,55 @@
 import * as XLSX from 'xlsx'
 import { WorkBook } from 'xlsx'
+import domtoimage from 'dom-to-image'
+import { ElLoading } from 'element-plus'
 
-const xlsxToImage = (data: any) => {
-  const workbook = XLSX.utils.book_new()
-  // const data = [headerData, ...bodyData]
+/**
+ * 导出图片
+ * @param data 表格数据
+ * @param imageName 图片名称
+ * @param scale 放大倍数
+ */
+const xlsxToImage = (data: any[][], imageName: string = 'image.png', scale: number = 2) => {
+  const loading = ElLoading.service({
+    fullscreen: true,
+    text: '正在导出图片，请稍后...'
+  })
+
+  const element = document.createElement('div')
+  element.id = 'sheet'
+  element.setAttribute('style', 'position: absolute;top: 0;z-index: -1000;')
+  document.body.appendChild(element)
+
   const worksheet = XLSX.utils.aoa_to_sheet(data)
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1')
+  element.innerHTML = XLSX.utils.sheet_to_html(worksheet)
+
+  // 设置表格样式
+  const selectorTable = element.querySelector('table')
+  selectorTable.setAttribute('border', '1')
+  selectorTable.setAttribute('cellspacing', '0')
+
+  domtoimage
+    .toJpeg(element, {
+      quality: 1,
+      width: element?.offsetWidth * scale,
+      height: element?.offsetHeight * scale,
+      bgcolor: '#FFFFFF',
+      style: {
+        transform: `scale(${scale})`, // 放大元素倍数，提高清晰度
+        transformOrigin: '0 0' // 指定变换的原点
+      }
+    })
+    .then((dataUrl: string) => {
+      const link = document.createElement('a')
+      link.href = dataUrl
+      link.download = imageName
+      link.click()
+    })
+    .finally(() => {
+      element.remove()
+
+      loading.close()
+    })
 }
 
 /**
@@ -21,6 +65,11 @@ const exportExcel = (
   fileName: string = new Date().toLocaleString() + '.xlsx',
   file?: WorkBook
 ) => {
+  const loading = ElLoading.service({
+    fullscreen: true,
+    text: '正在导出Excel，请稍后...'
+  })
+
   let workbook
   if (!file && headerData && bodyData) {
     workbook = XLSX.utils.book_new()
@@ -32,6 +81,7 @@ const exportExcel = (
   }
 
   if (!workbook) {
+    loading.close()
     return
   }
 
@@ -45,9 +95,9 @@ const exportExcel = (
   const link = document.createElement('a')
   link.href = url
   link.setAttribute('download', fileName)
-  document.body.appendChild(link)
   link.click()
-  document.body.removeChild(link)
+
+  loading.close()
 }
 
 /**
@@ -96,4 +146,4 @@ const getRow = (sheet: any, row?: number) => {
   return headers // 经过上方一波操作遍历，得到最终的第一行头数据
 }
 
-export { exportExcel, parseExcel }
+export { exportExcel, parseExcel, xlsxToImage }

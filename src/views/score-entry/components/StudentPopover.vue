@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia'
 
 import { useDataSourceStore } from '@/stores/data-source'
-import { exportExcel } from '@/untils/xlsxUntil'
+import { xlsxToImage } from '@/untils/xlsxUntil'
 
 import type { ListItemType } from '@/types/DataSource'
 
@@ -21,28 +21,44 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 /**
+ * 导出图片
+ * @param command
+ */
+const xlsxToImageCommand = (command: string) => {
+  xlsxToImage(
+    buildData(command === 'exist'),
+    `${props.downloadFileName}-${new Date().toLocaleString()}.png`
+  )
+}
+
+/**
  * 获取数据
  */
-const getList = () => {
-  const data = originList.value as Array<ListItemType>
-  return data
+const getList = (): ListItemType[] => {
+  return originList.value
+    .filter((e) => e.score !== null)
     .filter((e: ListItemType) => props.condition(e))
     .sort((a, b) => (b.score || 0) - (a.score || 0))
 }
 
 /**
- * 导出完成数据的 Excel
- * @param data
- * @param fileName
+ * 构建数据
+ * @param isScore
  */
-const exportExcelFun = (data: ListItemType[], fileName: string) => {
-  const headerData = ['序号', '姓名', '分数']
+const buildData = (isScore: boolean = true) => {
+  const headerData = isScore ? ['序号', '姓名', '分数'] : ['序号', '姓名']
   const bodyData: any[][] = []
+
+  const data = getList()
   data.forEach((e, i) => {
-    bodyData.push([String(i + 1), e.name, e.score !== null ? Number(e.score) : ''])
+    if (isScore) {
+      bodyData.push([String(i + 1), e.name, e.score])
+    } else {
+      bodyData.push([String(i + 1), e.name])
+    }
   })
 
-  exportExcel(headerData, bodyData, `${fileName}-${new Date().toLocaleString()}.xlsx`)
+  return [headerData, ...bodyData]
 }
 </script>
 
@@ -68,13 +84,15 @@ const exportExcelFun = (data: ListItemType[], fileName: string) => {
         </el-tag>
       </el-badge>
     </el-popover>
-    <el-button
-      type="primary"
-      size="small"
-      icon="Download"
-      circle
-      @click="exportExcelFun(getList(), props.downloadFileName)"
-    />
+    <el-dropdown placement="bottom" @command="xlsxToImageCommand">
+      <el-button type="primary" size="small" icon="Picture" circle />
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item command="exist">有分数</el-dropdown-item>
+          <el-dropdown-item command="non">无分数</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
   </template>
   <template v-else>
     <el-text type="primary">/</el-text>
