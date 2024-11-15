@@ -6,7 +6,7 @@ import { ElMessageBox } from 'element-plus'
 import { storeToRefs } from 'pinia'
 import { useDataSourceStore } from '@/stores/data-source'
 
-import type { ListItemType } from '../../../types/DataSource'
+import type { ListItemType } from '@/types/DataSource'
 
 const emit = defineEmits(['edit'])
 

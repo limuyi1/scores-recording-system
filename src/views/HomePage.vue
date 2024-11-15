@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-
 import { ElMessageBox } from 'element-plus'
 
 import EmptyTableView from '@/views/components/EmptyTableView.vue'
