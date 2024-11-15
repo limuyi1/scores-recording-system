@@ -20,7 +20,6 @@ const tabData = [
 ]
 
 const title = ref(import.meta.env.VITE_GLOB_APP_TITLE)
-
 const isNotEmpty = computed(() => store.data?.length)
 const activeName = ref(tabData[0].name)
 const compRef = ref()
