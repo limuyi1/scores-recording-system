@@ -1,5 +1,4 @@
 import * as XLSX from 'xlsx'
-import { WorkBook } from 'xlsx'
 import domtoimage from 'dom-to-image'
 import { ElLoading } from 'element-plus'
 
@@ -25,8 +24,8 @@ const xlsxToImage = (data: any[][], imageName: string = 'image.png', scale: numb
 
   // 设置表格样式
   const selectorTable = element.querySelector('table')
-  selectorTable.setAttribute('border', '1')
-  selectorTable.setAttribute('cellspacing', '0')
+  selectorTable?.setAttribute('border', '1')
+  selectorTable?.setAttribute('cellspacing', '0')
 
   domtoimage
     .toJpeg(element, {
@@ -63,7 +62,7 @@ const exportExcel = (
   headerData?: string[],
   bodyData?: any[][],
   fileName: string = new Date().toLocaleString() + '.xlsx',
-  file?: WorkBook
+  file?: XLSX.WorkBook
 ) => {
   const loading = ElLoading.service({
     fullscreen: true,

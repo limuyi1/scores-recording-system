@@ -44,17 +44,17 @@ const handleTabChange = (tabName: string) => {
 
 <template>
   <el-container>
-    <el-header class="home-view-header__wrapper">
+    <el-header class="home-page-header__wrapper">
       <span>{{ title }}</span>
       <el-button v-if="isNotEmpty" type="primary" icon="Upload" @click="resetStuInfo"
         >重置信息
       </el-button>
     </el-header>
-    <el-main class="home-view-main__wrapper">
+    <el-main class="home-page-main__wrapper">
       <el-tabs
         v-if="isNotEmpty"
         v-model="activeName"
-        class="home-view-tabs"
+        class="home-page-tabs"
         @tab-change="handleTabChange"
       >
         <el-tab-pane v-for="item in tabData" :key="item.name" :label="item.label" :name="item.name">
@@ -67,7 +67,7 @@ const handleTabChange = (tabName: string) => {
 </template>
 
 <style scoped lang="scss">
-.home-view-header__wrapper {
+.home-page-header__wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -76,13 +76,13 @@ const handleTabChange = (tabName: string) => {
   background-color: #d9ecff;
 }
 
-.home-view-main__wrapper {
+.home-page-main__wrapper {
   height: calc(100vh - 60px);
   background-color: #f4f4f5;
   padding: 0 20px 20px;
   box-sizing: border-box;
 
-  .home-view-tabs {
+  .home-page-tabs {
     width: 100%;
     height: 100%;
   }
