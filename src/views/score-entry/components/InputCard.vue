@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import { match } from 'pinyin-pro'
 import { storeToRefs } from 'pinia'
 
+import { useEnterUp } from '@/hooks/useEnterUp'
 import { useDataSourceStore } from '@/stores/data-source'
 
 import type { ListItemType } from '@/types/DataSource'
@@ -30,15 +31,17 @@ const formData: ListItemType = reactive({
   score: null,
   comment: null
 })
+const isEnterUp = ref(false)
 
 onMounted(() => {
   autoFocus()
 })
 
 /**
- * 姓名获取焦点
+ * 自动聚焦
  */
 const autoFocus = () => {
+  // 姓名获取焦点
   nameInputRef.value.focus()
 }
 
@@ -62,19 +65,20 @@ const remoteMethod = (query: string) => {
  */
 const selectChange = (index: number) => {
   if (index) {
-    const { id, name, score, comment } = originList.value[index - 1]
-    formData.id = id
-    formData.name = name
-    formData.score = score
-    formData.comment = comment
+    useEnterUp('stuName', () => {
+      const { id, name, score, comment } = originList.value[index - 1]
 
-    // 表格滚动到相应姓名的位置
-    emit('scroll', index)
+      formData.id = id
+      formData.name = name
+      formData.score = score
+      formData.comment = comment
 
-    setTimeout(() => {
+      // 表格滚动到相应姓名的位置
+      emit('scroll', index)
+
       scoreInputRef.value?.focus()
       commentInputRef.value?.focus()
-    }, 100)
+    })
   }
 }
 
@@ -131,6 +135,7 @@ defineExpose({ editData, autoFocus })
       <el-form-item label="姓名">
         <el-select
           ref="nameInputRef"
+          name="stuName"
           style="width: 100%"
           v-model="formData.id"
           size="large"
