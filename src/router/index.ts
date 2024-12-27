@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 import HomePage from '../views/HomePage.vue'
+import MainPage from '@/views/score-entry/MainPage.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -13,6 +14,16 @@ const router = createRouter({
           path: '/index',
           name: 'Home',
           component: HomePage
+        }
+      ]
+    },
+    {
+      path: '/main',
+      children: [
+        {
+          path: '/main',
+          name: 'Main',
+          component: MainPage
         }
       ]
     }

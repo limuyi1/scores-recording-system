@@ -3,10 +3,10 @@ import { onUnmounted, ref } from 'vue'
 /**
  * 监听回车事件
  * @param nameProperty 需要监听的元素name属性
- * @param delay 延迟时间
  * @param fn 执行函数
+ * @param delay 延迟时间
  */
-export const useEnterUp = (nameProperty: string, delay: number = 100, fn: Function) => {
+export const useEnterUp = (nameProperty: string, fn: Function, delay: number = 100) => {
   const isEnterUp = ref(false)
 
   /**
@@ -15,7 +15,7 @@ export const useEnterUp = (nameProperty: string, delay: number = 100, fn: Functi
    */
   const handleGlobalKeyUp = (event: KeyboardEvent) => {
     // 监听回车事件是否弹起
-    const _nameProperty = event.target?.name
+    const _nameProperty = event.target?.name || null
     if (event.key === 'Enter' && _nameProperty === nameProperty) {
       isEnterUp.value = true
     }
