@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import EmptyTableView from '@/views/components/EmptyTableView.vue'
 import OverlengthTextTooltip from '@/components/OverlengthTextTooltip.vue'
+import ComplementaryFoodForm from '@/views/ComplementaryFoodForm.vue'
 
 import { generateUniqueExpressions } from '@/untils/generateExpressionsUtil'
 

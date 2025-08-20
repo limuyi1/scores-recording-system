@@ -14,7 +14,7 @@
     "lib": ["esnext", "DOM"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "types": ["node", "vite/client"],
+    "types": ["node", "vite/client", "element-plus/global"],
     "paths": {
       "@/*": ["src/*"]
     }
