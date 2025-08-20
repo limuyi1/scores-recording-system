@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, reactive, ref, watch } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { match } from 'pinyin-pro'
 import { storeToRefs } from 'pinia'
 
@@ -31,7 +31,6 @@ const formData: ListItemType = reactive({
   score: null,
   comment: null
 })
-const isEnterUp = ref(false)
 
 onMounted(() => {
   autoFocus()
