@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
-import { ListItemType } from '@/types/DataSource'
 
 export const useDataSourceStore = defineStore('dataSource', {
   state: () => {
     return {
-      data: [] as Array<ListItemType>
+      header: [] as Array<string>,
+      data: [] as Array<any>
     }
   },
   getters: {
@@ -42,11 +42,11 @@ export const useDataSourceStore = defineStore('dataSource', {
     },
     comprehensiveRatingRate() {
       return (
-        this.average * 0.4 +
-        (this.passRate / 100) * 0.3 +
-        (this.excellentRate / 100) * 0.3 +
-        (this.optimumRate / 100) * 0.05 -
-        (this.lowScoreRate / 100) * 0.05
+        Number(this.average) * 0.4 +
+        (Number(this.passRate) / 100) * 0.3 +
+        (Number(this.excellentRate) / 100) * 0.3 +
+        (Number(this.optimumRate) / 100) * 0.05 -
+        (Number(this.lowScoreRate) / 100) * 0.05
       )
     }
   },

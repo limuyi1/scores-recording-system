@@ -112,7 +112,7 @@ const getEvaluationText = (str: string | undefined | null) => {
                         :style="{
                           fontSize: configuration.inscribeFontSize + 'px'
                         }"
-                        class="table-td"
+                        class="table-td font-fy"
                         >{{ configuration.inscribe }}</span
                       ></span
                     >
@@ -158,7 +158,6 @@ td {
 
         .table-td {
           font-size: 18px;
-          font-family: 'FYFont', sans-serif;
         }
 
         .table-body {

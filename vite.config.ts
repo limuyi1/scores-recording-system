@@ -1,19 +1,15 @@
 import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig, loadEnv, UserConfig } from 'vite'
-import { createHtmlPlugin } from 'vite-plugin-html'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-
+import tailwindcss from '@tailwindcss/vite'
+import { createHtmlPlugin } from 'vite-plugin-html'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }): UserConfig => {
-  const root = process.cwd();
-  const env = loadEnv(mode, root);
+  const root = process.cwd()
+  const env = loadEnv(mode, root)
 
   return {
     plugins: [
@@ -22,16 +18,11 @@ export default defineConfig(({ mode }): UserConfig => {
       createHtmlPlugin({
         inject: {
           data: {
-            title: env.VITE_GLOB_APP_TITLE,
-          },
-        },
+            title: env.VITE_GLOB_APP_TITLE
+          }
+        }
       }),
-      AutoImport({
-        resolvers: [ElementPlusResolver()]
-      }),
-      Components({
-        resolvers: [ElementPlusResolver()]
-      })
+      tailwindcss()
     ],
     resolve: {
       alias: {
@@ -39,12 +30,15 @@ export default defineConfig(({ mode }): UserConfig => {
       }
     },
     server: {
+      watch: {
+        usePolling: true // 启用轮询
+      },
       port: Number(env.VITE_PORT),
-      host: "0.0.0.0",
+      host: '0.0.0.0',
       fs: {
         // Allow serving files from one level up to the project rootW
-        allow: [".."],
-      },
+        allow: ['..']
+      }
     },
     base: './',
     build: {

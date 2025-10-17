@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { storeToRefs } from 'pinia'
 
 import ConfigurationCard from '@/views/final-evaluation/components/ConfigurationCard.vue'
 import InputCard from '@/views/score-entry/components/InputCard.vue'
 
 import { InputEnum } from '@/types/Common'
-import { storeToRefs } from 'pinia'
+
 import { useDataSourceStore } from '@/stores/data-source'
 
 const store = useDataSourceStore()

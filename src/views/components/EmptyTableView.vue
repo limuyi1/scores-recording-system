@@ -11,18 +11,34 @@ const uploadFile = async (file: any) => {
   try {
     parseExcel(file).then(({ header, data }) => {
       if (!header.includes('姓名')) {
-        ElMessage.error('表格中不包含[姓名]列！')
+        ElMessage.error('表格中必须包含[姓名]列！')
         return
       }
 
-      store.data = data.map((e: any, i) => {
-        return {
-          id: i + 1,
-          name: String(e['姓名']),
-          score: e['分数'] ? Number(e['分数']) : null,
-          comment: e['评语'] ? String(e['评语']) : null
-        }
+      const headerObj = header.reduce((acc: any, cur: any) => {
+        acc[cur] = null
+        return acc
+      }, {})
+
+      const result = data.map((e: any) => {
+        const _headerObj = Object.assign({}, headerObj)
+        Object.keys(_headerObj).forEach((key: any) => {
+          _headerObj[key] = e[key] || null
+        })
+        return _headerObj
       })
+
+      store.header = header
+      store.data = result
+
+      // store.data = data.map((e: any, i) => {
+      //   return {
+      //     id: i + 1,
+      //     name: String(e['姓名']),
+      //     score: e['分数'] ? Number(e['分数']) : null,
+      //     comment: e['评语'] ? String(e['评语']) : null
+      //   }
+      // })
 
       ElMessage.success('导入成功！')
     })
