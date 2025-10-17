@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia'
 
 import { ElMessageBox } from 'element-plus'
 
-import EmptyTableView from '@/views/components/EmptyTableView.vue'
+import EmptyTableView from '@/views/home/components/EmptyTableView.vue'
 
 import { useDataSourceStore } from '@/stores/data-source'
 
@@ -15,7 +15,7 @@ const { header: headers, data: tableData } = storeToRefs(store)
 
 const tableRef = ref()
 const editConfig = ref<VxeTablePropTypes.EditConfig>({
-  trigger: 'click',
+  trigger: 'dblclick',
   mode: 'cell',
   showIcon: false
 })

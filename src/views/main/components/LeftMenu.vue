@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { computed, type ComputedRef, onMounted, ref } from 'vue'
+import { computed, type ComputedRef, nextTick, onMounted, ref } from 'vue'
+
+import router from '@/router'
 
 import data from '@/config/menu'
 import { useDataSourceStore } from '@/stores/data-source'

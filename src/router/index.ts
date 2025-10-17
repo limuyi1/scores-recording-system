@@ -10,7 +10,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/main',
+      redirect: '/home',
       children: [
         {
           path: '/main',

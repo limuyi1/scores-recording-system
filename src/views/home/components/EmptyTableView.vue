@@ -31,15 +31,6 @@ const uploadFile = async (file: any) => {
       store.header = header
       store.data = result
 
-      // store.data = data.map((e: any, i) => {
-      //   return {
-      //     id: i + 1,
-      //     name: String(e['姓名']),
-      //     score: e['分数'] ? Number(e['分数']) : null,
-      //     comment: e['评语'] ? String(e['评语']) : null
-      //   }
-      // })
-
       ElMessage.success('导入成功！')
     })
   } catch (err) {
