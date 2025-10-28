@@ -15,7 +15,8 @@ export const useConfigurationStore = defineStore('configuration', {
         inscribeFontSize: 18, // 落款字号
         inscribe: '', // 签名名称
         pageType: PagesEnum.A4, // 页面类型
-        pageTypeList: [PagesEnum.A3, PagesEnum.A4, PagesEnum.B3, PagesEnum.B4]
+        pageTypeList: [PagesEnum.A3, PagesEnum.A4, PagesEnum.B3, PagesEnum.B4],
+        inputScoreTab: null // 录入成绩页签
       } as ConfigurationType
     }
   },

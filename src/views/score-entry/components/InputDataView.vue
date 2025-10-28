@@ -58,7 +58,7 @@ const autoFocus = () => {
  * 编辑数据
  * @param data
  */
-const editData = (data: ListItemType) => {
+const editData = (data: any) => {
   inputCardRef.value?.editData(data)
 }
 

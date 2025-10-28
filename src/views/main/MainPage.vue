@@ -26,7 +26,7 @@ const title = ref(import.meta.env.VITE_GLOB_APP_TITLE)
       </el-main>
     </el-container>
     <el-footer class="bg-dark text-white flex items-center justify-center" height="auto">
-      <div class="px-4 py-1">&copy; 2025 {{ title }} - 李木一版权所有</div>
+      <div>&copy; 2025 {{ title }} - 李木一版权所有</div>
     </el-footer>
   </el-container>
 </template>

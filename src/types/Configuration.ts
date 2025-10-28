@@ -10,4 +10,5 @@ export interface ConfigurationType {
   inscribe: string // 签名名称
   pageType: PagesEnum // 页面类型
   pageTypeList: Array<PagesEnum> // 页面类型列表
+  inputScoreTab: string // 录入成绩页签
 }

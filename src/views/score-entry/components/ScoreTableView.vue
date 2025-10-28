@@ -5,14 +5,17 @@ import { ElMessageBox } from 'element-plus'
 
 import { storeToRefs } from 'pinia'
 import { useDataSourceStore } from '@/stores/data-source'
+import { useConfigurationStore } from '@/stores/configuration'
 
 import type { ListItemType } from '@/types/DataSource'
 
 const emit = defineEmits(['edit'])
 
 const store = useDataSourceStore()
+const configuration = useConfigurationStore()
 
-const { data: tableData } = storeToRefs(store)
+const { tagTypeList, data: tableData } = storeToRefs(store)
+const { data: config } = storeToRefs(configuration)
 const tableRef = ref()
 const loading = ref(false)
 
@@ -106,7 +109,7 @@ const resetScore = () => {
  * 编辑信息
  * @param data
  */
-const handleEdit = (data: ListItemType) => {
+const handleEdit = (data: any) => {
   emit('edit', data)
 }
 
@@ -123,12 +126,18 @@ defineExpose({ scroll })
     :row-class-name="tableRowClassName"
     @row-click="handleEdit"
   >
-    <el-table-column prop="id" label="序号" width="60" align="center" />
-    <el-table-column prop="name" label="姓名" width="200" />
-    <el-table-column prop="score" label="分数">
+    <el-table-column prop="序号" label="序号" width="60" align="center" />
+    <el-table-column prop="姓名" label="姓名" width="200" />
+    <el-table-column :prop="config.inputScoreTab" width="200">
       <template #header>
         <div class="operate-btn__wrapper">
-          <div class="operate-btn--text">分数</div>
+          <el-select
+            class="w-[100px]! mr-[8px]"
+            v-model="config.inputScoreTab"
+            placeholder="选择类型"
+          >
+            <el-option v-for="item in tagTypeList" :key="item" :label="item" :value="item" />
+          </el-select>
           <el-tooltip effect="dark" placement="top" append-to="body" content="重置分数">
             <el-icon :size="18" color="var(--el-color-primary)">
               <Refresh style="cursor: pointer" @click="resetScore" />
@@ -144,10 +153,6 @@ defineExpose({ scroll })
 .operate-btn__wrapper {
   display: flex;
   align-items: center;
-
-  .operate-btn--text {
-    margin-right: 8px;
-  }
 }
 
 :deep(.el-table__row) {

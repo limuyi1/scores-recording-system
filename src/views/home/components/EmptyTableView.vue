@@ -3,9 +3,14 @@ import { useDataSourceStore } from '@/stores/data-source'
 
 import { ElMessage } from 'element-plus'
 
+import { storeToRefs } from 'pinia'
+
 import { parseExcel } from '@/untils/xlsxUntil'
+import { useConfigurationStore } from '@/stores/configuration'
 
 const store = useDataSourceStore()
+const configuration = useConfigurationStore()
+const { data: config } = storeToRefs(configuration)
 
 const uploadFile = async (file: any) => {
   try {
@@ -30,6 +35,9 @@ const uploadFile = async (file: any) => {
 
       store.header = header
       store.data = result
+
+      // 添加默认的录入成绩页签
+      config.value.inputScoreTab = store.tagTypeList[0]
 
       ElMessage.success('导入成功！')
     })

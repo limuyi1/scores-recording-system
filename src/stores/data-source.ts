@@ -48,6 +48,11 @@ export const useDataSourceStore = defineStore('dataSource', {
         (Number(this.optimumRate) / 100) * 0.05 -
         (Number(this.lowScoreRate) / 100) * 0.05
       )
+    },
+    // 标签类型list
+    tagTypeList: (state) => {
+      // 表格删除前两列
+      return state.header.slice(2)
     }
   },
   persist: true

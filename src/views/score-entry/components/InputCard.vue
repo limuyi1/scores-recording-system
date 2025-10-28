@@ -5,6 +5,7 @@ import { storeToRefs } from 'pinia'
 
 import { useEnterUp } from '@/hooks/useEnterUp'
 import { useDataSourceStore } from '@/stores/data-source'
+import { useConfigurationStore } from '@/stores/configuration'
 
 import type { ListItemType } from '@/types/DataSource'
 import { InputEnum } from '@/types/Common'
@@ -19,8 +20,10 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits(['scroll'])
 
 const store = useDataSourceStore()
-
 const { data: originList } = storeToRefs(store)
+const configuration = useConfigurationStore()
+const { data: config } = storeToRefs(configuration)
+
 const options = ref<ListItemType[]>([])
 const nameInputRef = ref()
 const scoreInputRef = ref()
@@ -113,12 +116,14 @@ const onSubmit = () => {
  * 编辑数据
  * @param data
  */
-const editData = (data: ListItemType) => {
-  remoteMethod(data.name)
+const editData = (data: any) => {
+  console.info(data, 'data------')
 
-  formData.id = data.id
-  formData.name = data.name
-  formData.score = data.score
+  remoteMethod(data['姓名'])
+
+  formData.id = data['序号']
+  formData.name = data['姓名']
+  formData.score = data[config.value.inputScoreTab]
   formData.comment = data.comment
 
   // 重新聚焦到分数输入框
