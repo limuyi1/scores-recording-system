@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>学生管理系统 - Tab高密度布局</title>
+  <style>
+      :root {
+          --primary: #3498db;
+          --bg: #f8fafc;
+          --nav-bg: #2c3e50;
+          --border: #e2e8f0;
+      }
+
+      body { font-family: "PingFang SC", sans-serif; margin: 0; display: flex; height: 100vh; background: var(--bg); overflow: hidden; }
+
+      /* 右侧主导航 */
+      .sidebar-right { width: 160px; background: var(--nav-bg); color: white; order: 2; display: flex; flex-direction: column; }
+      .menu-item { padding: 20px; cursor: pointer; color: #94a3b8; text-align: center; transition: 0.3s; border-right: 4px solid transparent; }
+      .menu-item.active { background: #1e293b; color: white; border-right-color: var(--primary); }
+
+      /* 主内容容器 */
+      .main-container { flex: 1; order: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+      /* 一级 Tab 导航 */
+      .tab-header { background: white; border-bottom: 1px solid var(--border); display: flex; padding: 0 30px; flex-shrink: 0; }
+      .tab-link { padding: 20px 25px; cursor: pointer; color: #64748b; font-weight: 500; border-bottom: 3px solid transparent; transition: 0.2s; }
+      .tab-link.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+      /* Tab 内容区 */
+      .tab-content { flex: 1; overflow: hidden; display: none; padding: 20px; }
+      .tab-content.active { display: flex; flex-direction: column; }
+
+      /* --- 学生档案表格样式 --- */
+      .table-wrapper { background: white; border-radius: 8px; border: 1px solid var(--border); overflow: auto; flex: 1; }
+      table { width: 100%; border-collapse: collapse; min-width: 1000px; /* 强制产生横向滚动以容纳成绩列 */ }
+      th { background: #f1f5f9; position: sticky; top: 0; z-index: 10; padding: 12px 15px; text-align: left; font-size: 13px; color: #475569; border-bottom: 1px solid var(--border); }
+      td { padding: 12px 15px; border-bottom: 1px solid #f1f5f9; font-size: 14px; white-space: nowrap; }
+      .sticky-col { position: sticky; right: 0; background: white; border-left: 1px solid var(--border); box-shadow: -2px 0 5px rgba(0,0,0,0.02); }
+
+      /* --- 字典管理样式 (局部两栏) --- */
+      .dict-container { display: flex; background: white; border-radius: 8px; border: 1px solid var(--border); height: 100%; overflow: hidden; }
+      .dict-aside { width: 200px; border-right: 1px solid var(--border); background: #fcfcfc; }
+      .dict-menu-item { padding: 15px 20px; cursor: pointer; border-bottom: 1px solid #f1f5f9; font-size: 14px; color: #475569; }
+      .dict-menu-item.active { background: white; color: var(--primary); font-weight: bold; border-left: 4px solid var(--primary); }
+      .dict-main { flex: 1; padding: 30px; overflow-y: auto; }
+
+      /* 标签云样式 */
+      .tag-box { display: flex; flex-wrap: wrap; gap: 10px; }
+      .tag { background: #eff6ff; color: #1e40af; border: 1px solid #dbeafe; padding: 6px 12px; border-radius: 6px; display: flex; align-items: center; }
+      .tag-add { border: 1px dashed var(--primary); color: var(--primary); background: white; cursor: pointer; }
+
+      /* 通用按钮 */
+      .btn { padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-size: 14px; }
+      .btn-primary { background: var(--primary); color: white; }
+  </style>
+</head>
+<body>
+
+<div class="main-container">
+  <div class="tab-header">
+    <div class="tab-link active" onclick="switchTab('student-tab')">学生详细档案</div>
+    <div class="tab-link" onclick="switchTab('dict-tab')">系统字典维护</div>
+    <div class="tab-link" onclick="switchTab('unit-tab')">评价单元配置</div>
+  </div>
+
+  <div id="student-tab" class="tab-content active">
+    <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+      <div style="display:flex; gap:10px;">
+        <input type="text" placeholder="搜索姓名/特点..." style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 200px;">
+        <select style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+          <option>所有学习类型</option>
+          <option>优等生</option>
+          <option>后进生</option>
+        </select>
+      </div>
+      <button class="btn btn-primary">+ 录入新学生</button>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+        <tr>
+          <th>姓名</th>
+          <th>性别</th>
+          <th>分类特点</th>
+          <th>第一单元成绩</th>
+          <th>期中考试成绩</th>
+          <th>第二单元成绩</th>
+          <th>期末考试成绩</th>
+          <th>平均分</th>
+          <th>综合评语</th>
+          <th class="sticky-col">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>张小明</td>
+          <td>男</td>
+          <td>[学习] 优等生, [性格] 活泼</td>
+          <td>95</td><td>92</td><td>98</td><td>94</td><td>94.7</td>
+          <td>表现优异，逻辑性强...</td>
+          <td class="sticky-col"><a href="#" style="color:var(--primary)">编辑</a></td>
+        </tr>
+        <tr>
+          <td>李美美</td>
+          <td>女</td>
+          <td>[学习] 潜力生, [性格] 细心</td>
+          <td>88</td><td>85</td><td>90</td><td>87</td><td>87.5</td>
+          <td>书写工整，继续努力...</td>
+          <td class="sticky-col"><a href="#" style="color:var(--primary)">编辑</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="dict-tab" class="tab-content">
+    <div class="dict-container">
+      <div class="dict-aside">
+        <div style="padding:15px; font-size:12px; color:#999; font-weight:bold;">字典分类</div>
+        <div class="dict-menu-item active">学习情况类</div>
+        <div class="dict-menu-item">性格特征类</div>
+        <div class="dict-menu-item">兴趣特长类</div>
+        <div class="dict-menu-item">家庭情况类</div>
+      </div>
+      <div class="dict-main">
+        <div style="display:flex; justify-content:space-between; margin-bottom: 20px;">
+          <h3 style="margin:0">学习情况类标签管理</h3>
+          <button class="btn btn-primary" style="padding: 5px 10px; font-size:12px;">+ 新增分类项</button>
+        </div>
+        <div class="tag-box">
+          <div class="tag">优等生 <span style="margin-left:8px; cursor:pointer;">×</span></div>
+          <div class="tag">潜力生 <span style="margin-left:8px; cursor:pointer;">×</span></div>
+          <div class="tag">后进生 <span style="margin-left:8px; cursor:pointer;">×</span></div>
+          <div class="tag">逻辑清晰 <span style="margin-left:8px; cursor:pointer;">×</span></div>
+          <div class="tag">表达优秀 <span style="margin-left:8px; cursor:pointer;">×</span></div>
+          <div class="tag">书写工整 <span style="margin-left:8px; cursor:pointer;">×</span></div>
+          <div class="tag tag-add">+ 添加新标签</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="unit-tab" class="tab-content">
+    <div style="max-width: 600px; margin: 0 auto; width:100%; background:white; padding:30px; border-radius:8px; border:1px solid var(--border);">
+      <h3>成绩表头顺序管理</h3>
+      <p style="color:#666; font-size:13px; margin-bottom:20px;">这里定义的名称和顺序将直接反映在“学生详细档案”及“成绩录入”页面的表头中。</p>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div style="display:flex; justify-content:space-between; padding:15px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px;">
+          <span>1. 第一单元测验</span>
+          <span style="color:var(--primary); cursor:pointer;">修改排序</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; padding:15px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px;">
+          <span>2. 期中考试</span>
+          <span style="color:var(--primary); cursor:pointer;">修改排序</span>
+        </div>
+        <button class="btn" style="margin-top:10px; border: 1px dashed #cbd5e1; background:none; color:#64748b;">+ 增加考核单元</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sidebar-right">
+  <div style="padding: 25px 0; text-align: center; font-weight: bold; border-bottom: 1px solid #3e4f5f; font-size: 14px;">EDU SYSTEM</div>
+  <div class="menu-item">主页</div>
+  <div class="menu-item">成绩录入</div>
+  <div class="menu-item">评语录入</div>
+  <div class="menu-item active">信息维护</div>
+</div>
+
+<script>
+  function switchTab(tabId) {
+    // 切换 Tab 链接样式
+    document.querySelectorAll('.tab-link').forEach(link => {
+      link.classList.remove('active');
+    });
+    event.currentTarget.classList.add('active');
+
+    // 切换 Tab 内容
+    document.querySelectorAll('.tab-content').forEach(content => {
+      content.classList.remove('active');
+    });
+    document.getElementById(tabId).classList.add('active');
+  }
+</script>
+</body>
+</html>

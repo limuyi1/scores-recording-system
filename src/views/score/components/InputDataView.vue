@@ -71,7 +71,7 @@ defineExpose({
 <template>
   <div class="input-data-view__wrapper">
     <el-card>
-      <el-popover placement="top" :width="400" trigger="hover">
+      <el-popover placement="top" :width="400" trigger="hover" :disabled="!hasNullScoreList.length">
         <template #reference>
           <el-progress
             class="input-data-view--progress"

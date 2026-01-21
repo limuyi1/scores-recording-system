@@ -12,6 +12,13 @@ export default defineConfig(({ mode }): UserConfig => {
   const env = loadEnv(mode, root)
 
   return {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler'
+        }
+      }
+    },
     plugins: [
       vue(),
       vueJsx(),
