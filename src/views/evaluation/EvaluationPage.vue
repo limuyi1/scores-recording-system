@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-import EvaluationTableView from '@/views/final-evaluation/components/EvaluationTableView.vue'
-import ToolPanelView from '@/views/final-evaluation/components/ToolPanelView.vue'
+import EvaluationTableView from '@/views/evaluation/components/EvaluationTableView.vue'
+import ToolPanelView from '@/views/evaluation/components/ToolPanelView.vue'
 
 const evaluationTableViewRef = ref<InstanceType<typeof EvaluationTableView>>()
 const toolPanelViewRef = ref<InstanceType<typeof ToolPanelView>>()

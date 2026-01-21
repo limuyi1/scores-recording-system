@@ -3,7 +3,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { ElScrollbar } from 'element-plus'
 
-import EvaluationCard from '@/views/final-evaluation/components/EvaluationCard.vue'
+import EvaluationCard from '@/views/evaluation/components/EvaluationCard.vue'
 
 import { useDataSourceStore } from '@/stores/data-source'
 import { useConfigurationStore } from '@/stores/configuration'
@@ -15,6 +15,12 @@ const { data: tableData } = storeToRefs(store)
 const configurationStore = useConfigurationStore()
 const { data: configuration } = storeToRefs(configurationStore)
 
+const config = {
+  width: 90,
+  height: 69,
+  margin: 12.7
+}
+
 const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>()
 const dataSource = ref<any[][]>([])
 const cellInfo = reactive({
@@ -22,29 +28,26 @@ const cellInfo = reactive({
   height: 0
 })
 
-const cell = {
-  width: 90,
-  height: 69
-}
-
 onMounted(() => {
   init()
 })
 
 const init = () => {
-  const cellWidth = mmToPixel(cell.width)
-  const cellHeight = mmToPixel(cell.height)
+  const cellWidth = mmToPixel(config.width)
+  const cellHeight = mmToPixel(config.height)
   cellInfo.width = cellWidth
   cellInfo.height = cellHeight
 
-  // 根据人数分各个page页面
+  // 根据下拉选择的类型，获取页面尺寸
   const { width, height } = pageSizeInPixels(configuration.value.pageType)
-  const margin = width - cellInfo.width * 2
+  // 先按照默认最小的margin计算出每行的列数
+  const columnCount = Math.floor((width - config.margin * 2) / cellWidth)
+  // 算出真实的margin值
+  const margin = width - cellWidth * columnCount
   // 每页的层数
-  const cellLevel = Math.floor((height - margin) / cellInfo.height)
-
-  // 按每层两个为一组
-  dataSource.value = groupArray(tableData.value, cellLevel * 2)
+  const cellLevel = Math.floor((height - margin) / cellHeight)
+  // 每页的数据进行分组
+  dataSource.value = groupArray(tableData.value, cellLevel * columnCount)
 }
 
 const groupArray = (array: any[], groupSize: number) => {

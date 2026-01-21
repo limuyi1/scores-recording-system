@@ -2,8 +2,8 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 
 import HomePage from '@/views/home/HomePage.vue'
 import MainPage from '@/views/main/MainPage.vue'
-import Math from '@/views/score-entry/ScoreEntryPage.vue'
-import Comment from '@/views/final-evaluation/FinalEvaluationPage.vue'
+import Math from '@/views/score/ScoreEntryPage.vue'
+import Comment from '@/views/evaluation/FinalEvaluationPage.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),

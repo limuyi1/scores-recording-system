@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import StudentPopover from '@/views/score-entry/components/StudentPopover.vue'
+import StudentPopover from '@/views/score/components/StudentPopover.vue'
 
 import type { ListItemType } from '@/types/DataSource'
 </script>

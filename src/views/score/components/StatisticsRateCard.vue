@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useTransition } from '@vueuse/core'
-import DownloadBtn from '@/views/score-entry/components/DownloadBtn.vue'
+import DownloadBtn from '@/views/score/components/DownloadBtn.vue'
 
 import { useDataSourceStore } from '@/stores/data-source'
 

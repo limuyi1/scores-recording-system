@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
-import InputCard from '@/views/score-entry/components/InputCard.vue'
+import InputCard from '@/views/score/components/InputCard.vue'
 
 import { useDataSourceStore } from '@/stores/data-source'
 import { storeToRefs } from 'pinia'

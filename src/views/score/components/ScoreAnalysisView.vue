@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import StatisticsRateCard from '@/views/score-entry/components/StatisticsRateCard.vue'
-import StatisticsNumCard from '@/views/score-entry/components/StatisticsNumCard.vue'
+import StatisticsRateCard from '@/views/score/components/StatisticsRateCard.vue'
+import StatisticsNumCard from '@/views/score/components/StatisticsNumCard.vue'
 </script>
 
 <template>

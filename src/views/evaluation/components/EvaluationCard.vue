@@ -54,7 +54,7 @@ watch(
 
 const getEvaluationText = (str: string | undefined | null) => {
   if (str) {
-    return str.replaceAll('\n', '<br />')
+    return (str as any).replaceAll('\n', '<br />')
   }
 
   return ''
@@ -70,7 +70,7 @@ const getEvaluationText = (str: string | undefined | null) => {
     <div class="evaluation-card--table__wrapper" :style="{ padding: `${page.padding}px` }">
       <table class="evaluation-card--table" border="0" cellspacing="0">
         <template v-for="(item, index) in props.data">
-          <!-- 每行两个 -->
+          <!-- 每行n个 -->
           <tr v-if="index % 2 == 0" :key="`${item.id}_${index}`">
             <template v-for="e in 2">
               <td v-if="props.data[index + e - 1]?.id" :key="e">

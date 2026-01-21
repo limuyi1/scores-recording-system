@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-import ScoreTableView from '@/views/score-entry/components/ScoreTableView.vue'
-import InputDataView from '@/views/score-entry/components/InputDataView.vue'
-import ScoreAnalysisView from '@/views/score-entry/components/ScoreAnalysisView.vue'
+import ScoreTableView from '@/views/score/components/ScoreTableView.vue'
+import InputDataView from '@/views/score/components/InputDataView.vue'
+import ScoreAnalysisView from '@/views/score/components/ScoreAnalysisView.vue'
 
 const tableRef = ref<InstanceType<typeof ScoreTableView>>()
 const inputDataRef = ref<InstanceType<typeof InputDataView>>()
